@@ -155,4 +155,50 @@ class ZabbixApiService
     {
         return $this->url;
     }
+
+    public static function getTimeRange($activeFilter): array
+    {
+        $timeFrom = null;
+        $timeTill = time();
+        switch ($activeFilter) {
+            case 'today':
+                $timeFrom = strtotime('today');
+                break;
+            case 'yesterday':
+                $timeFrom = strtotime('yesterday');
+                $timeTill = strtotime('today');
+                break;
+            case '1hour':
+                $timeFrom = strtotime('-1 hour');
+                $timeTill = strtotime('-0 hour');
+                break;
+            case '2hours':
+                $timeFrom = strtotime('-2 hours');
+                $timeTill = strtotime('-1 hour');
+                break;
+            case '3hours':
+                $timeFrom = strtotime('-3 hours');
+                $timeTill = strtotime('-2 hours');
+                break;
+            case '4hours':
+                $timeFrom = strtotime('-4 hours');
+                $timeTill = strtotime('-3 hours');
+                break;
+            case '5hours':
+                $timeFrom = strtotime('-5 hours');
+                $timeTill = strtotime('-4 hours');
+                break;
+            case '6hours':
+                $timeFrom = strtotime('-6 hours');
+                $timeTill = strtotime('-5 hours');
+                break;
+            case '12hours':
+                $timeFrom = strtotime('-12 hours');
+                $timeTill = strtotime('-11 hours');
+                break;
+            default:
+                $timeFrom = strtotime('today');
+        }
+        return [$timeFrom, $timeTill];
+    }
 }
