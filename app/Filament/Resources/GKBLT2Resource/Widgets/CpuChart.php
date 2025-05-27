@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Widgets\MikrotikGkbLt1;
+namespace App\Filament\Resources\GKBLT2Resource\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
-// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
 
 class CpuChart extends ChartWidget
 {
@@ -34,7 +34,7 @@ class CpuChart extends ChartWidget
 
         // Find the host ID for "Mikrotik GKB LT1"
         foreach ($hosts as $host) {
-            if ($host['host'] === 'mikrotik-gkb-lt1') {
+            if ($host['host'] === 'mikrotik-gkb-lt2') {
                 $hostId = $host['hostid'];
                 break;
             }
@@ -58,6 +58,7 @@ class CpuChart extends ChartWidget
             ],
         ]);
         $hostData = json_decode($hostResponse->getBody()->getContents(), true);
+        Log::info('Host Data: ', $hostData);
 
         // Log::info('Host Data: ', $hostData);
 
@@ -65,7 +66,7 @@ class CpuChart extends ChartWidget
         $items = $hostData['result'][0]['items'] ?? [];
 
         // Ambil itemid 50343 dari host.get (atau langsung gunakan jika sudah pasti ada)
-        $itemId = '50335';
+        $itemId = '50488';
         $itemName = 'CPU utilization (%)';
 
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter

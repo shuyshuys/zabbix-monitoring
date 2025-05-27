@@ -76,58 +76,10 @@ class InterfaceCombo1Chart extends ChartWidget
             }
         }
 
-        // Atur rentang waktu berdasarkan filter
-        $timeFrom = null;
-        $timeTill = time();
-        switch ($activeFilter) {
-            case 'today':
-                $timeFrom = strtotime('today');
-                break;
-            case 'yesterday':
-                $timeFrom = strtotime('yesterday');
-                $timeTill = strtotime('today');
-                break;
-            case '1hour':
-                $timeFrom = strtotime('-1 hour');
-                $timeTill = strtotime('-0 hour');
-                break;
-            case '2hours':
-                $timeFrom = strtotime('-2 hours');
-                $timeTill = strtotime('-1 hour');
-                break;
-            case '3hours':
-                $timeFrom = strtotime('-3 hours');
-                $timeTill = strtotime('-2 hours');
-                break;
-            case '6hours':
-                $timeFrom = strtotime('-6 hours');
-                $timeTill = strtotime('-5 hours');
-                break;
-            case '12hours':
-                $timeFrom = strtotime('-12 hours');
-                $timeTill = strtotime('-11 hours');
-                break;
-            case 'week':
-                $timeFrom = strtotime('-7 days');
-                $timeTill = strtotime('today');
-                break;
-            case 'month':
-                $timeFrom = strtotime('-1 month');
-                $timeTill = strtotime('today');
-                break;
-            case 'year':
-                $timeFrom = strtotime('-1 year');
-                $timeTill = strtotime('today');
-                break;
-            default:
-                $timeFrom = strtotime('today');
-        }
-
-        Log::info('Time Range', [
-            'activeFilter' => $activeFilter,
-            'timeFrom' => date('Y-m-d H:i:s', $timeFrom),
-            'timeTill' => date('Y-m-d H:i:s', $timeTill),
-        ]);
+        // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
+        [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
+        Log::info('Filter', ['filter' => $this->filter]);
+        Log::info('Time range', ['from' => $timeFrom, 'till' => $timeTill]);
 
         $labels = [];
         $datasets = [];
@@ -238,12 +190,13 @@ class InterfaceCombo1Chart extends ChartWidget
             '1hour' => 'Last hour',
             '2hours' => 'Last 2 hours',
             '3hours' => 'Last 3 hours',
+            '4hours' => 'Last 4 hours',
+            '5hours' => 'Last 5 hours',
             '6hours' => 'Last 6 hours',
             '12hours' => 'Last 12 hours',
             'yesterday' => 'Yesterday',
             'week' => 'Last week',
             'month' => 'Last month',
-            'year' => 'This year',
         ];
     }
 }

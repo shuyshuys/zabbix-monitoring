@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Widgets\MikrotikGkbLt1;
+namespace App\Filament\Resources\GKBLT3Resource\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
-// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
 
-class CpuChart extends ChartWidget
+class MemoryChart extends ChartWidget
 {
-    protected static ?string $heading = 'CPU Utilization Chart';
+    protected static ?string $heading = 'Memory Usage';
 
     protected static ?string $pollingInterval = '180s';
 
@@ -34,7 +34,7 @@ class CpuChart extends ChartWidget
 
         // Find the host ID for "Mikrotik GKB LT1"
         foreach ($hosts as $host) {
-            if ($host['host'] === 'mikrotik-gkb-lt1') {
+            if ($host['host'] === 'mikrotik-gkb-lt3') {
                 $hostId = $host['hostid'];
                 break;
             }
@@ -65,8 +65,8 @@ class CpuChart extends ChartWidget
         $items = $hostData['result'][0]['items'] ?? [];
 
         // Ambil itemid 50343 dari host.get (atau langsung gunakan jika sudah pasti ada)
-        $itemId = '50335';
-        $itemName = 'CPU utilization (%)';
+        $itemId = '50514';
+        $itemName = 'Memory Usage (%)';
 
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
@@ -113,6 +113,18 @@ class CpuChart extends ChartWidget
                     'borderColor' => '#4CAF50',
                     'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
                 ]
+            ],
+            'options' => [
+                'scales' => [
+                    'y' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'ticks' => [
+                            'stepSize' => 10,
+                            'callback' => 'function(value) { return value + "%"; }',
+                        ],
+                    ],
+                ],
             ],
         ];
     }

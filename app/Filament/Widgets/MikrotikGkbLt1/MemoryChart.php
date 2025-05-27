@@ -12,6 +12,8 @@ class MemoryChart extends ChartWidget
 
     protected static ?string $pollingInterval = '180s';
 
+    public ?string $filter = 'today';
+
     protected function getData(): array
     {
         // Log::info('Start Fetching data for Mikrotik GKB LT1 CPU chart');
@@ -64,7 +66,10 @@ class MemoryChart extends ChartWidget
 
         // Ambil itemid 50343 dari host.get (atau langsung gunakan jika sudah pasti ada)
         $itemId = '50225';
-        $itemName = 'Memory Usage';
+        $itemName = 'Memory Usage (%)';
+
+        // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
+        [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
 
         // Query history.get untuk itemid 50343
         $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
@@ -80,14 +85,16 @@ class MemoryChart extends ChartWidget
                     'itemids' => $itemId,
                     'sortfield' => 'clock',
                     'sortorder' => 'DESC',
-                    'limit' => 50,
+                    'limit' => 100,
+                    'time_from' => $timeFrom,
+                    'time_till' => $timeTill,
                 ],
                 'id' => 2,
                 'auth' => $authToken,
             ],
         ]);
         $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-        Log::info('History Data: ', $historyData);
+        // Log::info('History Data: ', $historyData);
 
         // Siapkan data untuk chart
         $labels = [];
@@ -110,24 +117,11 @@ class MemoryChart extends ChartWidget
             'options' => [
                 'scales' => [
                     'y' => [
-                        'suggestedMin' => 0,
-                        'suggestedMax' => 100,
+                        'min' => 0,
+                        'max' => 100,
                         'ticks' => [
-                            'color' => 'white',
-                            'beginAtZero' => true,
+                            'stepSize' => 10,
                             'callback' => 'function(value) { return value + "%"; }',
-                        ],
-                        'grid' => [
-                            'display' => true,
-                        ],
-                    ],
-                    'x' => [
-                        'ticks' => [
-                            'color' => 'white',
-                            'beginAtZero' => true,
-                        ],
-                        'grid' => [
-                            'display' => false,
                         ],
                     ],
                 ],
@@ -138,5 +132,22 @@ class MemoryChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            '1hour' => 'Last hour',
+            '2hours' => 'Last 2 hours',
+            '3hours' => 'Last 3 hours',
+            '4hours' => 'Last 4 hours',
+            '5hours' => 'Last 5 hours',
+            '6hours' => 'Last 6 hours',
+            '12hours' => 'Last 12 hours',
+            'yesterday' => 'Yesterday',
+            'week' => 'Last week',
+            'month' => 'Last month',
+        ];
     }
 }

@@ -40,7 +40,7 @@ class MikrotikGkbLt1CpuChart extends ChartWidget
 
         $data = json_decode($response->getBody()->getContents(), true);
 
-        Log::info('Graph Data', ['data' => $data]);
+        // Log::info('Graph Data', ['data' => $data]);
 
         // Contoh: tampilkan nama graph sebagai label, dan graphid sebagai data (dummy)
         $labels = [];
