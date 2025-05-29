@@ -19,7 +19,7 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
 
         $hostId = null;
         foreach ($hosts as $host) {
-            if ($host['host'] === 'mikrotik-gkb-lt1') {
+            if ($host['host'] === 'mikrotik-gkb-lt3') {
                 $hostId = $host['hostid'];
                 break;
             }
