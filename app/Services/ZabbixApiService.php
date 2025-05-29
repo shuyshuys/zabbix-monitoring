@@ -7,9 +7,19 @@ use Illuminate\Support\Facades\Log;
 
 class ZabbixApiService
 {
-    protected string $url = 'http://192.168.192.114:8080/api_jsonrpc.php';
+    protected string $url;
+
+    public function __construct()
+    {
+        $this->url = env('ZABBIX_URL', 'http://localhost/zabbix/api_jsonrpc.php');
+    }
     protected string $username = 'Admin';
     protected string $password = 'zabbix';
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
 
     public function getAuthToken(): string
     {
@@ -87,73 +97,6 @@ class ZabbixApiService
         $data = json_decode($response->getBody()->getContents(), true);
 
         return $data['result'] ?? '';
-    }
-
-    // public function getCpuUsage(string $hostId, string $authToken): array
-    // {
-    //     $client = new Client();
-
-    //     $response = $client->request('POST', $this->url, [
-    //         'headers' => [
-    //             'Content-Type' => 'application/json',
-    //         ],
-    //         'json' => [
-    //             'jsonrpc' => '2.0',
-    //             'method' => 'item.get',
-    //             'params' => [
-    //                 'output' => ['itemid', 'name'],
-    //                 'hostids' => $hostId,
-    //                 'search' => ['key_' => 'system.cpu.util'],
-    //             ],
-    //             'id' => 4,
-    //             'auth' => $authToken,
-    //         ],
-    //     ]);
-
-    //     $data = json_decode($response->getBody()->getContents(), true);
-
-    //     if (empty($data['result'])) {
-    //         Log::warning('No CPU usage items found', ['hostId' => $hostId]);
-    //         return [];
-    //     }
-
-    //     Log::info('CPU Item Data', ['data' => $data]);
-
-    //     $allHistory = [];
-    //     foreach ($data['result'] as $item) {
-    //         $itemId = $item['itemid'];
-    //         Log::info('CPU Item ID', ['itemId' => $itemId]);
-
-    //         $historyResponse = $client->request('POST', $this->url, [
-    //             'headers' => [
-    //                 'Content-Type' => 'application/json',
-    //             ],
-    //             'json' => [
-    //                 'jsonrpc' => '2.0',
-    //                 'method' => 'history.get',
-    //                 'params' => [
-    //                     'output' => 'extend',
-    //                     'itemids' => $itemId,
-    //                     'sortfield' => 'clock',
-    //                     'sortorder' => 'DESC',
-    //                     'limit' => 10,
-    //                 ],
-    //                 'id' => 5,
-    //                 'auth' => $authToken,
-    //             ],
-    //         ]);
-
-    //         $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-    //         Log::info('CPU History Data', ['itemId' => $itemId, 'history' => $historyData]);
-    //         $allHistory[$itemId] = $historyData;
-    //     }
-
-    //     return $allHistory;
-    // }
-
-    public function getUrl(): string
-    {
-        return $this->url;
     }
 
     public static function getTimeRange($activeFilter): array
