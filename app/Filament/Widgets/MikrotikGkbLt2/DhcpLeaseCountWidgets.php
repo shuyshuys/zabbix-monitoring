@@ -54,25 +54,7 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
         ]);
         $data = json_decode($response->getBody()->getContents(), true);
 
-        if (empty($data['result'])) {
-            return [
-                Stat::make('Active Leases', 'active_leases')
-                    ->label('Active Leases')
-                    ->value('0')
-                    ->color('success'),
-            ];
-        }
-
         $itemId = $data['result'][0]['itemid'] ?? null;
-
-        if (!$itemId) {
-            return [
-                Stat::make('Active Leases', 'active_leases')
-                    ->label('Active Leases')
-                    ->value('0')
-                    ->color('success'),
-            ];
-        }
 
         // Ambil data history untuk item DHCP Lease Count
         $response = $client->request('POST', $zabbixService->getUrl(), [
@@ -96,20 +78,8 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
         ]);
         $historyData = json_decode($response->getBody()->getContents(), true)['result'] ?? [];
 
-        if (empty($historyData)) {
-            return [
-                Stat::make('Active Leases', 'active_leases')
-                    ->label('Active Leases')
-                    ->value('0')
-                    ->color('success'),
-            ];
-        }
-
         // Ambil value dari history.get
         $activeLeases = $historyData[0]['value'] ?? '0';
-
-        // Ganti dengan itemid ICMP status Anda
-        // $icmpStatusItemId = '50204';
 
         // Ambil itemid untuk key mtxrDHCPLeaseCount
         $response = $client->request('POST', $zabbixService->getUrl(), [
