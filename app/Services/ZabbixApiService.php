@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Log;
 class ZabbixApiService
 {
     protected string $url;
+    protected string $username;
+    protected string $password;
 
     public function __construct()
     {
         $this->url = env('ZABBIX_URL', 'http://localhost/zabbix/api_jsonrpc.php');
+        $this->username = env('ZABBIX_USERNAME', 'Admin');
+        $this->password = env('ZABBIX_PASSWORD', 'zabbix');
     }
-    protected string $username = 'Admin';
-    protected string $password = 'zabbix';
 
     public function getUrl(): string
     {
