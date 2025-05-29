@@ -35,6 +35,7 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
         }
         $client = new \GuzzleHttp\Client();
 
+        // Ambil itemid untuk key mtxrDHCPLeaseCount
         $response = $client->request('POST', $zabbixService->getUrl(), [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -53,10 +54,6 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
         ]);
         $data = json_decode($response->getBody()->getContents(), true);
 
-        // Log::info('DHCP Lease Count Data: ', $data);
-
-        // use history.get to get the last value of the item
-
         if (empty($data['result'])) {
             return [
                 Stat::make('Active Leases', 'active_leases')
@@ -67,7 +64,7 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
         }
 
         $itemId = $data['result'][0]['itemid'] ?? null;
-        // Log::info('DHCP Lease Count Item ID: ', ['itemId' => $itemId]);
+
         if (!$itemId) {
             return [
                 Stat::make('Active Leases', 'active_leases')
@@ -76,6 +73,8 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
                     ->color('success'),
             ];
         }
+
+        // Ambil data history untuk item DHCP Lease Count
         $response = $client->request('POST', $zabbixService->getUrl(), [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -96,7 +95,7 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
             ],
         ]);
         $historyData = json_decode($response->getBody()->getContents(), true)['result'] ?? [];
-        // Log::info('DHCP Lease Count History Data: ', $historyData);
+
         if (empty($historyData)) {
             return [
                 Stat::make('Active Leases', 'active_leases')
@@ -105,12 +104,33 @@ class IcmpUpDownPeriodWidget extends StatsOverviewWidget
                     ->color('success'),
             ];
         }
+
         // Ambil value dari history.get
         $activeLeases = $historyData[0]['value'] ?? '0';
 
-
         // Ganti dengan itemid ICMP status Anda
-        $icmpStatusItemId = '50204';
+        // $icmpStatusItemId = '50204';
+
+        // Ambil itemid untuk key mtxrDHCPLeaseCount
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'icmpping'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $icmpStatusItemId = $data['result'][0]['itemid'] ?? null;
 
         // Ambil 1000 data terakhir (atau lebih jika ingin periode lebih panjang)
         $statusResponse = $client->request('POST', $zabbixService->getUrl(), [
