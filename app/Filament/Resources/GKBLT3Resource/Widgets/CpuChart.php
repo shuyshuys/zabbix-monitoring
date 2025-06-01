@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class CpuChart extends ChartWidget
 {
-    protected static ?string $heading = 'CPU Utilization Chart';
+    protected static ?string $heading = 'CPU Usage';
 
     protected static ?string $pollingInterval = '180s';
 

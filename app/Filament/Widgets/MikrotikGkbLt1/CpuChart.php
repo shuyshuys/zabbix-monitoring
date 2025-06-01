@@ -8,7 +8,7 @@ use App\Services\ZabbixApiService;
 
 class CpuChart extends ChartWidget
 {
-    protected static ?string $heading = 'CPU Utilization Chart';
+    protected static ?string $heading = 'CPU Usage';
 
     protected static ?string $pollingInterval = '180s';
 
@@ -16,19 +16,11 @@ class CpuChart extends ChartWidget
 
     protected function getData(): array
     {
-        // Log::info('Start Fetching data for Mikrotik GKB LT1 CPU chart');
-
         $zabbixService = new ZabbixApiService();
-        // Log::info('Starting Zabbix API service to fetch host data');
-
         $authToken = $zabbixService->getAuthToken();
-        // Log::info('Fetching auth token from Zabbix API');
-
         $hosts = $zabbixService->getHosts();
-        // Log::info('Retrieving hosts from Zabbix API');
 
         $client = new \GuzzleHttp\Client();
-        // Log::info('Creating Guzzle HTTP client for Zabbix API requests');
 
         $hostId = null;
 
@@ -40,6 +32,7 @@ class CpuChart extends ChartWidget
             }
         }
 
+        // Get host details
         $hostResponse = $client->request('POST', $zabbixService->getUrl(), [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -65,8 +58,29 @@ class CpuChart extends ChartWidget
         $items = $hostData['result'][0]['items'] ?? [];
 
         // Ambil itemid 50343 dari host.get (atau langsung gunakan jika sudah pasti ada)
-        $itemId = '50335';
+        // $itemId = '50335';
         $itemName = 'CPU utilization (%)';
+
+        // Ambil itemid untuk CPU utilization
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'system.cpu.util[hrProcessorLoad.1]'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $itemId = $data['result'][0]['itemid'] ?? null;
 
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
@@ -94,7 +108,6 @@ class CpuChart extends ChartWidget
             ],
         ]);
         $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-        // Log::info('History Data: ', $historyData);
 
         // Siapkan data untuk chart
         $labels = [];
@@ -120,22 +133,5 @@ class CpuChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
-    }
-
-    protected function getFilters(): ?array
-    {
-        return [
-            'today' => 'Today',
-            '1hour' => 'Last hour',
-            '2hours' => 'Last 2 hours',
-            '3hours' => 'Last 3 hours',
-            '4hours' => 'Last 4 hours',
-            '5hours' => 'Last 5 hours',
-            '6hours' => 'Last 6 hours',
-            '12hours' => 'Last 12 hours',
-            'yesterday' => 'Yesterday',
-            'week' => 'Last week',
-            'month' => 'Last month',
-        ];
     }
 }

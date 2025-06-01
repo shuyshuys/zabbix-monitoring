@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class CpuChart extends ChartWidget
 {
-    protected static ?string $heading = 'CPU Utilization Chart';
+    protected static ?string $heading = 'CPU Usage';
 
     protected static ?string $pollingInterval = '180s';
 
@@ -121,22 +121,5 @@ class CpuChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
-    }
-
-    protected function getFilters(): ?array
-    {
-        return [
-            'today' => 'Today',
-            '1hour' => 'Last hour',
-            '2hours' => 'Last 2 hours',
-            '3hours' => 'Last 3 hours',
-            '4hours' => 'Last 4 hours',
-            '5hours' => 'Last 5 hours',
-            '6hours' => 'Last 6 hours',
-            '12hours' => 'Last 12 hours',
-            'yesterday' => 'Yesterday',
-            'week' => 'Last week',
-            'month' => 'Last month',
-        ];
     }
 }
