@@ -20,11 +20,6 @@ class TracerouteWidget extends Widget
         $output = [];
         $result = null;
         exec("traceroute " . escapeshellarg($target), $output, $result);
-        // Log::info('Traceroute command executed', [
-        //     'target' => $target,
-        //     'result' => $result,
-        //     'output' => $output,
-        // ]);
         $this->result = implode("\n", $output);
     }
 }
