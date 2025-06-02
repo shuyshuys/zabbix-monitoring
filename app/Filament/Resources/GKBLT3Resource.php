@@ -17,7 +17,7 @@ class GKBLT3Resource extends Resource
 {
     // protected static ?string $model = GKBLT3::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     protected static ?string $title = 'Mikrotik GKB LT3';
 

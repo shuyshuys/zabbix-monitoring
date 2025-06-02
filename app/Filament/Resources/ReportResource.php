@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GKBLT2Resource\Pages;
-use App\Filament\Resources\GKBLT2Resource\RelationManagers;
-use App\Models\GKBLT2;
+use App\Filament\Pages\Report;
+use App\Filament\Resources\ReportResource\Pages;
+use App\Filament\Resources\ReportResource\RelationManagers;
+// use App\Models\Report;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,23 +14,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class GKBLT2Resource extends Resource
+class ReportResource extends Resource
 {
-    // protected static ?string $model = GKBLT2::class;
+    // protected static ?string $model = Zabbix::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
-
-    protected static ?string $title = 'Mikrotik GKB LT2';
-
-    protected static ?string $slug = 'mikrotik-gkb-lt2';
-
-    protected static ?string $label = 'Mikrotik GKB LT2';
-
-    protected static ?string $navigationLabel = 'GKB LT2';
-
-    protected static ?int $navigationSort = 2;
-
-    protected static ?int $sort = 2;
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
     public static function form(Form $form): Form
     {
@@ -68,7 +57,7 @@ class GKBLT2Resource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\GKBLT2::route('/'),
+            'index' => Pages\Report::route('/'),
         ];
     }
 }
