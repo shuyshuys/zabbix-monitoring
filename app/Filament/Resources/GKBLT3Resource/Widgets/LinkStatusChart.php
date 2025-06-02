@@ -4,6 +4,7 @@ namespace App\Filament\Resources\GKBLT3Resource\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
+use Illuminate\Support\Facades\Log;
 
 class LinkStatusChart extends ChartWidget
 {
@@ -19,17 +20,68 @@ class LinkStatusChart extends ChartWidget
         $authToken = $zabbixService->getAuthToken();
         $client = new \GuzzleHttp\Client();
 
+        $hosts = $zabbixService->getHosts();
+        // Log::info('Retrieving hosts from Zabbix API');
+
+        $hostId = null;
+
+        // Find the host ID for "Mikrotik GKB LT1"
+        foreach ($hosts as $host) {
+            if ($host['host'] === 'mikrotik-gkb-lt3') {
+                $hostId = $host['hostid'];
+                break;
+            }
+        }
+
+        // Ambil semua item dengan key_ mengandung 'net.if.status[ifOperStatus.'
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'net.if.status[ifOperStatus'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+        Log::info('Retrieving items from Zabbix API', [
+            'hostId' => $hostId,
+            'itemCount' => count($data['result'] ?? []),
+            'response' => $data,
+        ]);
+
+        // Susun array itemid dan label interface
+        $interfaces = [];
+        if (!empty($data['result'])) {
+            foreach ($data['result'] as $item) {
+                // Contoh label: ether1, ether2, dst, bisa diambil dari name
+                if (preg_match('/Interface ([\w\d]+)\(\): Operational status/', $item['name'], $matches)) {
+                    $label = $matches[1];
+                } else {
+                    $label = $item['name'];
+                }
+                $interfaces[$item['itemid']] = $label;
+            }
+        }
+
         // Daftar itemid dan label interface
-        $interfaces = [
-            '50567' => 'ether1',
-            '50566' => 'ether2',
-            '50628' => 'ether3',
-            '50627' => 'ether4',
-            '50625' => 'ether5',
-            '50629' => 'ether6',
-            '50630' => 'ether7',
-            '50626' => 'ether8',
-        ];
+        // $interfaces = [
+        //     '50567' => 'ether1',
+        //     '50566' => 'ether2',
+        //     '50628' => 'ether3',
+        //     '50627' => 'ether4',
+        //     '50625' => 'ether5',
+        //     '50629' => 'ether6',
+        //     '50630' => 'ether7',
+        //     '50626' => 'ether8',
+        // ];
 
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
 

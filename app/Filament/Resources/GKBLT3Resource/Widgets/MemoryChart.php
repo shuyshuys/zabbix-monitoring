@@ -65,8 +65,28 @@ class MemoryChart extends ChartWidget
         $items = $hostData['result'][0]['items'] ?? [];
 
         // Ambil itemid 50343 dari host.get (atau langsung gunakan jika sudah pasti ada)
-        $itemId = '50514';
+        // $itemId = '50514';
         $itemName = 'Memory Usage (%)';
+
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'vm.memory.util[memoryUsedPercentage.Memory]'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $itemId = $data['result'][0]['itemid'] ?? null;
 
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);

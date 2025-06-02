@@ -20,9 +20,64 @@ class IcmpPingChart extends ChartWidget
         $authToken = $zabbixService->getAuthToken();
         $client = new \GuzzleHttp\Client();
 
+        $hosts = $zabbixService->getHosts();
+        // Log::info('Retrieving hosts from Zabbix API');
+
+        $hostId = null;
+
+        // Find the host ID for "Mikrotik GKB LT1"
+        foreach ($hosts as $host) {
+            if ($host['host'] === 'mikrotik-gkb-lt1') {
+                $hostId = $host['hostid'];
+                break;
+            }
+        }
+
         // Item ID untuk ICMP status dan response time
-        $icmpStatusItemId = '50493';
-        $icmpResponseTimeItemId = '50495';
+        // $icmpStatusItemId = '50493';
+        // $icmpResponseTimeItemId = '50495';
+
+        // Ambil itemid untuk ICMP status
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'icmpping'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $icmpStatusItemId = $data['result'][0]['itemid'] ?? null;
+
+        // Ambil itemid untuk ICMP response time
+        $response = $client->request('POST', $zabbixService->getUrl(), [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'item.get',
+                'params' => [
+                    'output' => ['itemid', 'name', 'key_'],
+                    'hostids' => $hostId,
+                    'search' => ['key_' => 'icmppingsec'],
+                ],
+                'id' => 1,
+                'auth' => $authToken,
+            ],
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $icmpResponseTimeItemId = $data['result'][0]['itemid'] ?? null;
 
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
