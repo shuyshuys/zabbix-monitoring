@@ -68,6 +68,7 @@ class ZabbixApiService
                 'method' => 'host.get',
                 'params' => [
                     'output' => 'extend',
+                    'selectTags' => 'extend',
                 ],
                 'id' => 2,
                 'auth' => $authToken,
@@ -145,5 +146,31 @@ class ZabbixApiService
                 $timeFrom = strtotime('today');
         }
         return [$timeFrom, $timeTill];
+    }
+
+    public function getHostInterfaces(array $hostIds): array
+    {
+        $client = new Client();
+        $authToken = $this->getAuthToken();
+
+        $response = $client->request('POST', $this->url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method' => 'hostinterface.get',
+                'params' => [
+                    'output' => 'extend',
+                    'hostids' => $hostIds,
+                ],
+                'id' => 4,
+                'auth' => $authToken,
+            ],
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        return $data['result'] ?? [];
     }
 }
