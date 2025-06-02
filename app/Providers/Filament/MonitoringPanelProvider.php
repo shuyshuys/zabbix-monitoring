@@ -43,8 +43,6 @@ class MonitoringPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                HostWidgets::class,
-                ZabbixWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
