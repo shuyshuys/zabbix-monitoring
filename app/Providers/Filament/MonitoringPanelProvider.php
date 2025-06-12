@@ -21,6 +21,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\ZabbixResource\Widgets\ZabbixWidget;
+use Tapp\FilamentWebhookClient\FilamentWebhookClientPlugin;
 
 class MonitoringPanelProvider extends PanelProvider
 {
@@ -32,6 +33,8 @@ class MonitoringPanelProvider extends PanelProvider
             ->path('monitoring')
             ->login()
             ->topNavigation(true)
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('3s')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -63,6 +66,9 @@ class MonitoringPanelProvider extends PanelProvider
                 NavigationItem::make('Login to Zabbix')
                     ->url(env('ZABBIX_LINK'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-link')
+            ])
+            ->plugins([
+                FilamentWebhookClientPlugin::make(),
             ]);
     }
 }
