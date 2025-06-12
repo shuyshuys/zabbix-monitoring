@@ -93,7 +93,7 @@ class HostUpLinkWidgets extends ChartWidget
         $downLinkData = [];
         $totalData = [];
         foreach ($historyData as $history) {
-            $timestamp = date('Y-m-d H:i:s', $history['clock']);
+            $timestamp = date('Y-m-d H:i', $history['clock']);
             if (!in_array($timestamp, $labels)) {
                 $labels[] = $timestamp;
             }
@@ -120,7 +120,7 @@ class HostUpLinkWidgets extends ChartWidget
         }
         // Convert timestamps to the format required by Chart.js
         $labels = array_map(function ($label) {
-            return date('Y-m-d H:i:s', strtotime($label));
+            return date('Y-m-d H:i', strtotime($label));
         }, $labels);
         // Prepare datasets for Chart.js
         $datasets = [

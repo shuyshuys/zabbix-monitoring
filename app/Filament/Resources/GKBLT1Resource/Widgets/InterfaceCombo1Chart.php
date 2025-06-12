@@ -113,7 +113,7 @@ class InterfaceCombo1Chart extends ChartWidget
             $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
 
             foreach ($historyData as $history) {
-                $receivedLabels[] = date('H:i:s', $history['clock']);
+                $receivedLabels[] = date('H:i', $history['clock']);
                 $receivedData[] = $history['value'] / 1000000;
             }
             $datasets[] = [

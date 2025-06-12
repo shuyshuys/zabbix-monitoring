@@ -103,7 +103,7 @@ class LinkStatusChart extends ChartWidget
             $data = [];
             $labelSet = [];
             foreach ($historyData as $entry) {
-                $labelSet[] = date('H:i:s', $entry['clock']);
+                $labelSet[] = date('H:i', $entry['clock']);
                 $data[] = (int)$entry['value'];
             }
             // Gunakan label dari interface pertama

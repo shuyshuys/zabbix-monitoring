@@ -122,7 +122,7 @@ class CpuChart extends ChartWidget
         $labels = [];
         $data = [];
         foreach ($historyData as $history) {
-            $labels[] = date('H:i:s', $history['clock']);
+            $labels[] = date('H:i', $history['clock']);
             $data[] = $history['value'];
         }
 

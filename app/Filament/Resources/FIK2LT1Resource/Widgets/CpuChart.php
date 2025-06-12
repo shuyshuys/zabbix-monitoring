@@ -113,7 +113,7 @@ class CpuChart extends ChartWidget
         $labels = [];
         $data = [];
         foreach ($historyData as $history) {
-            $labels[] = date('H:i:s', $history['clock']);
+            $labels[] = date('H:i', $history['clock']);
             $data[] = $history['value'];
         }
 
@@ -133,5 +133,22 @@ class CpuChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            '1hour' => 'Last hour',
+            '2hours' => 'Last 2 hours',
+            '3hours' => 'Last 3 hours',
+            '4hours' => 'Last 4 hours',
+            '5hours' => 'Last 5 hours',
+            '6hours' => 'Last 6 hours',
+            '12hours' => 'Last 12 hours',
+            'yesterday' => 'Yesterday',
+            'week' => 'Last week',
+            'month' => 'Last month',
+        ];
     }
 }

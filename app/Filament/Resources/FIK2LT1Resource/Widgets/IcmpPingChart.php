@@ -142,7 +142,7 @@ class IcmpPingChart extends ChartWidget
         // Diasumsikan kedua data memiliki urutan clock yang sama
         $count = min(count($statusData), count($responseTimeData));
         for ($i = 0; $i < $count; $i++) {
-            $labels[] = date('H:i:s', $statusData[$i]['clock']);
+            $labels[] = date('H:i', $statusData[$i]['clock']);
             $statusValues[] = (int)$statusData[$i]['value'];
             $responseTimeValues[] = (float)$responseTimeData[$i]['value'];
         }
