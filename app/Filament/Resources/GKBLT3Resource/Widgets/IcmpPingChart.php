@@ -10,7 +10,7 @@ class IcmpPingChart extends ChartWidget
 {
     protected static ?string $heading = 'ICMP Ping';
 
-    public ?string $filter = 'today';
+    public ?string $filter = '1hour';
 
     protected static ?string $pollingInterval = '180s';
 

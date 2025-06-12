@@ -20,7 +20,7 @@ class GKBLT2 extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            DhcpLeaseCountWidgets::class,
+            // DhcpLeaseCountWidgets::class,
             TracerouteWidget::class,
 
             CpuChart::class,

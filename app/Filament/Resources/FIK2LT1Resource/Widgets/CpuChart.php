@@ -12,7 +12,7 @@ class CpuChart extends ChartWidget
 
     protected static ?string $pollingInterval = '180s';
 
-    public ?string $filter = 'today';
+    public ?string $filter = '1hour';
 
     protected function getData(): array
     {

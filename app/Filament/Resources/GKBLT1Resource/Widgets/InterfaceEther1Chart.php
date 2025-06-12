@@ -9,8 +9,14 @@ class InterfaceEther1Chart extends ChartWidget
 {
     protected static ?string $heading = 'Interface Ether1 Traffic';
 
+    protected static ?string $pollingInterval = '180s';
+
+    public ?string $filter = '1hour';
+
     protected function getData(): array
     {
+        $activeFilter = $this->filter;
+
         $zabbixService = new ZabbixApiService();
         $authToken = $zabbixService->getAuthToken();
         $hosts = $zabbixService->getHosts();
@@ -67,6 +73,8 @@ class InterfaceEther1Chart extends ChartWidget
             }
         }
 
+        [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
+
         $labels = [];
         $datasets = [];
 
@@ -88,7 +96,9 @@ class InterfaceEther1Chart extends ChartWidget
                         'itemids' => $item['itemid'],
                         'sortfield' => 'clock',
                         'sortorder' => 'DESC',
-                        'limit' => 50,
+                        'limit' => 100,
+                        'time_from' => $timeFrom,
+                        'time_till' => $timeTill,
                     ],
                     'id' => 2,
                     'auth' => $authToken,
@@ -127,7 +137,9 @@ class InterfaceEther1Chart extends ChartWidget
                         'itemids' => $item['itemid'],
                         'sortfield' => 'clock',
                         'sortorder' => 'DESC',
-                        'limit' => 50,
+                        'limit' => 100,
+                        'time_from' => $timeFrom,
+                        'time_till' => $timeTill,
                     ],
                     'id' => 3,
                     'auth' => $authToken,
@@ -163,5 +175,22 @@ class InterfaceEther1Chart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            '1hour' => 'Last hour',
+            '2hours' => 'Last 2 hours',
+            '3hours' => 'Last 3 hours',
+            '4hours' => 'Last 4 hours',
+            '5hours' => 'Last 5 hours',
+            '6hours' => 'Last 6 hours',
+            '12hours' => 'Last 12 hours',
+            'yesterday' => 'Yesterday',
+            'week' => 'Last week',
+            'month' => 'Last month',
+        ];
     }
 }

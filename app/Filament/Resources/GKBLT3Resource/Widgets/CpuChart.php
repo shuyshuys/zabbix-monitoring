@@ -12,7 +12,7 @@ class CpuChart extends ChartWidget
 
     protected static ?string $pollingInterval = '180s';
 
-    public ?string $filter = 'today';
+    public ?string $filter = '1hour';
 
     protected function getData(): array
     {
@@ -89,7 +89,7 @@ class CpuChart extends ChartWidget
         $data = json_decode($response->getBody()->getContents(), true);
 
         $itemId = $data['result'][0]['itemid'] ?? null;
-        
+
         // Panggil fungsi untuk mendapatkan rentang waktu berdasarkan filter
         [$timeFrom, $timeTill] = ZabbixApiService::getTimeRange($this->filter);
 
