@@ -8,7 +8,7 @@ use App\Filament\Resources\GKBLT3Resource\Widgets\IcmpPingChart;
 use App\Filament\Resources\GKBLT3Resource\Widgets\LinkStatusChart;
 use App\Filament\Resources\GKBLT3Resource\Widgets\MemoryChart;
 use App\Filament\Resources\GKBLT3Resource\Widgets\TracerouteWidget;
-use App\Filament\Widgets\MikrotikGkbLt3\DhcpLeaseCountWidgets;
+use App\Filament\Resources\GKBLT3Resource\Widgets\DhcpLeaseCountWidgets;
 use Filament\Resources\Pages\Page;
 
 class GKBLT3 extends Page

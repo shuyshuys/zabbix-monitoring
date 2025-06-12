@@ -8,7 +8,7 @@ use App\Filament\Resources\GKBLT2Resource;
 use App\Filament\Resources\GKBLT2Resource\Widgets\CpuChart;
 use App\Filament\Resources\GKBLT2Resource\Widgets\IcmpPingChart;
 use App\Filament\Resources\GKBLT2Resource\Widgets\MemoryChart;
-use App\Filament\Widgets\MikrotikGkbLt2\DhcpLeaseCountWidgets;
+use App\Filament\Resources\GKBLT2Resource\Widgets\DhcpLeaseCountWidgets;
 use Filament\Resources\Pages\Page;
 
 class GKBLT2 extends Page
@@ -20,7 +20,7 @@ class GKBLT2 extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            // DhcpLeaseCountWidgets::class,
+            DhcpLeaseCountWidgets::class,
             TracerouteWidget::class,
 
             CpuChart::class,

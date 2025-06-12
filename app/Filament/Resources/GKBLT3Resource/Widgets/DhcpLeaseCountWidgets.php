@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\FIK2LT1Resource\Widgets;
+namespace App\Filament\Resources\GKBLT3Resource\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget;
@@ -21,9 +21,9 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
 
         $hostId = null;
         foreach ($hosts as $host) {
-            if ($host['host'] === 'mikrotik-fik-2') {
+            if ($host['host'] === 'mikrotik-gkb-lt3') {
                 $hostId = $host['hostid'];
-                Log::info('Found host ID for mikrotik-fik-2', ['hostId' => $hostId]);
+                Log::info('Found host ID for mikrotik-gkb-lt3', ['hostId' => $hostId]);
                 break;
             } else {
                 Log::info('Host not found', ['host' => $host['host']]);
