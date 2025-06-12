@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5bde4d02c171947f2ccd2c9e73551af",
+    "content-hash": "350893a52290faa4c03c399c7d307e9b",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -71,6 +71,66 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.1"
             },
             "time": "2025-04-06T06:54:34+00:00"
+        },
+        {
+            "name": "aymanalhattami/filament-page-with-sidebar",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aymanalhattami/filament-page-with-sidebar.git",
+                "reference": "daca9e362d556a0c76127ecf5dd27a57197242bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aymanalhattami/filament-page-with-sidebar/zipball/daca9e362d556a0c76127ecf5dd27a57197242bb",
+                "reference": "daca9e362d556a0c76127ecf5dd27a57197242bb",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "spatie/laravel-package-tools": "^1.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.0",
+                "pestphp/pest": "^3.0",
+                "pestphp/pest-plugin-arch": "^3.0",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AymanAlhattami\\FilamentPageWithSidebar\\FilamentPageWithSidebarServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AymanAlhattami\\FilamentPageWithSidebar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ayman Alhattami",
+                    "email": "ayman.m.alhattami@gmail.com"
+                }
+            ],
+            "description": "Organize resource pages in sidebar instead of putting all the buttons and links elsewhere in order to make navigation between pages more comfortable.",
+            "support": {
+                "issues": "https://github.com/aymanalhattami/filament-page-with-sidebar/issues",
+                "source": "https://github.com/aymanalhattami/filament-page-with-sidebar/tree/2.6.0"
+            },
+            "time": "2025-03-18T22:22:33+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3144,6 +3204,92 @@
             "time": "2025-04-12T22:26:52+00:00"
         },
         {
+            "name": "marjose123/filament-webhook-server",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarJose123/filament-webhook-server.git",
+                "reference": "b434b6c9ed33a078381ce9bdfd31cb94ac4372de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarJose123/filament-webhook-server/zipball/b434b6c9ed33a078381ce9bdfd31cb94ac4372de",
+                "reference": "b434b6c9ed33a078381ce9bdfd31cb94ac4372de",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "php": "^8.0 || ^8.1 || ^8.2",
+                "spatie/laravel-model-info": "^1.4 || ^2.0",
+                "spatie/laravel-package-tools": "^1.13.5",
+                "spatie/laravel-webhook-server": "^3.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "laravel/pint": "^1.4",
+                "nunomaduro/collision": "^6.0 || ^7.0",
+                "orchestra/testbench": "^7.0 || ^9.0",
+                "pestphp/pest": "^1.22",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "pestphp/pest-plugin-livewire": "^1.0",
+                "pestphp/pest-plugin-parallel": "^0.3",
+                "phpmd/phpmd": "^2.13",
+                "phpunit/phpunit": "^9.5 || ^10.0 || ^10.5",
+                "spatie/laravel-ray": "^1.26",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentWebhookServer": "Marjose123\\FilamentWebhookServer\\Facades\\FilamentWebhookServer"
+                    },
+                    "providers": [
+                        "Marjose123\\FilamentWebhookServer\\FilamentWebhookServerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Traits/helper.php"
+                ],
+                "psr-4": {
+                    "Marjose123\\FilamentWebhookServer\\": "src",
+                    "Marjose123\\FilamentWebhookServer\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marjose",
+                    "email": "hypernate1@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Send webhooks from your filament apps",
+            "homepage": "https://github.com/marjose123/filament-webhook-server",
+            "keywords": [
+                "MarJose123",
+                "filament-webhook-server",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/MarJose123/filament-webhook-server/issues",
+                "source": "https://github.com/MarJose123/filament-webhook-server/tree/2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/marjose123",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-24T01:00:12+00:00"
+        },
+        {
             "name": "masterminds/html5",
             "version": "2.9.0",
             "source": {
@@ -4829,6 +4975,63 @@
             "time": "2024-05-17T09:06:10+00:00"
         },
         {
+            "name": "spatie/laravel-model-info",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-info.git",
+                "reference": "be9531c7770fff10cfa0f7300e18799e728330ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-info/zipball/be9531c7770fff10cfa0f7300e18799e728330ad",
+                "reference": "be9531c7770fff10cfa0f7300e18799e728330ad",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^11.0|^12.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.13.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^2.34|^3.7",
+                "pestphp/pest-plugin-laravel": "^2.3|^3.1",
+                "spatie/pest-plugin-snapshots": "^2.1",
+                "symfony/serializer": "^6|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelInfo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Get information about the models in your Laravel app",
+            "homepage": "https://github.com/spatie/laravel-model-info",
+            "keywords": [
+                "laravel",
+                "laravel-model-info",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-model-info/tree/2.0.4"
+            },
+            "time": "2025-02-21T11:45:10+00:00"
+        },
+        {
             "name": "spatie/laravel-package-tools",
             "version": "1.92.4",
             "source": {
@@ -4888,6 +5091,155 @@
                 }
             ],
             "time": "2025-04-11T15:27:14+00:00"
+        },
+        {
+            "name": "spatie/laravel-webhook-client",
+            "version": "3.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-webhook-client.git",
+                "reference": "c7148e271a52b85da666bc7e3e1112b56138568b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-webhook-client/zipball/c7148e271a52b85da666bc7e3e1112b56138568b",
+                "reference": "c7148e271a52b85da666bc7e3e1112b56138568b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/bus": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/database": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/support": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "php": "^8.1 || ^8.2",
+                "spatie/laravel-package-tools": "^1.11"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.3 || ^10.5 || ^11.5.3 || ^12.0",
+                "spatie/laravel-ray": "^1.24"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\WebhookClient\\WebhookClientServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "11.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\WebhookClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Receive webhooks in Laravel apps",
+            "homepage": "https://github.com/spatie/laravel-webhook-client",
+            "keywords": [
+                "laravel-webhook-client",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-webhook-client/issues",
+                "source": "https://github.com/spatie/laravel-webhook-client/tree/3.4.3"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2025-02-14T13:01:09+00:00"
+        },
+        {
+            "name": "spatie/laravel-webhook-server",
+            "version": "3.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-webhook-server.git",
+                "reference": "e3d8f24030bbb4087867cd0be681c028736b772f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-webhook-server/zipball/e3d8f24030bbb4087867cd0be681c028736b772f",
+                "reference": "e3d8f24030bbb4087867cd0be681c028736b772f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.3|^7.3",
+                "illuminate/bus": "^8.50|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/queue": "^8.50|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^8.50|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.11"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4.3",
+                "orchestra/testbench": "^6.19|^7.0|^8.0|^10.0",
+                "pestphp/pest": "^1.22|^2.0|^3.0",
+                "pestphp/pest-plugin-laravel": "^1.3|^2.0|^3.0",
+                "spatie/test-time": "^1.2.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\WebhookServer\\WebhookServerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\WebhookServer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Send webhooks in Laravel apps",
+            "homepage": "https://github.com/spatie/laravel-webhook-server",
+            "keywords": [
+                "laravel-webhook-server",
+                "server",
+                "spatie",
+                "webhook"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-webhook-server/tree/3.8.3"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2025-02-14T12:55:41+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7186,6 +7538,90 @@
                 }
             ],
             "time": "2025-04-09T08:14:01+00:00"
+        },
+        {
+            "name": "tapp/filament-webhook-client",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TappNetwork/filament-webhook-client.git",
+                "reference": "7ed9a82688f3fa78262203553dd959d44b59129c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TappNetwork/filament-webhook-client/zipball/7ed9a82688f3fa78262203553dd959d44b59129c",
+                "reference": "7ed9a82688f3fa78262203553dd959d44b59129c",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0-stable",
+                "illuminate/contracts": "^10.0||^11.0||^12.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
+                "spatie/laravel-webhook-client": "^3.4"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "orchestra/testbench": "^9.0.0||^8.22.0",
+                "pestphp/pest": "^2.34",
+                "pestphp/pest-plugin-arch": "^2.7",
+                "pestphp/pest-plugin-laravel": "^2.3",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "spatie/laravel-ray": "^1.35"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tapp\\FilamentWebhookClient\\FilamentWebhookClientServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tapp\\FilamentWebhookClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Williamson",
+                    "email": "steve@tappnetwork.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andréia Bohner",
+                    "email": "andreia.bohner@tappnetwork.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add a Filament resource and a policy for Spatie Webhook client",
+            "homepage": "https://github.com/tapp/filament-webhook-client",
+            "keywords": [
+                "filament",
+                "laravel",
+                "tapp network",
+                "webhook",
+                "webhook-client"
+            ],
+            "support": {
+                "issues": "https://github.com/TappNetwork/filament-webhook-client/issues",
+                "source": "https://github.com/TappNetwork/filament-webhook-client/tree/v1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/TappNetwork",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-08T17:32:32+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10629,12 +11065,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
