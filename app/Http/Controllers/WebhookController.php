@@ -44,7 +44,7 @@ class WebhookController extends Controller
         foreach ($recipients as $recipient) {
             Notification::make()
                 ->title("$alertSubject")
-                ->body("Alert Message: {$alertMessage}, Source: {$eventSource}, Value: {$eventValue}, Request: " . json_encode($request->all()))
+                ->body("{$alertMessage}")
                 ->sendToDatabase($recipient); // <-- ini WAJIB
             Log::info('Notification sent to user', ['user_id' => $recipient->id]);
         }
