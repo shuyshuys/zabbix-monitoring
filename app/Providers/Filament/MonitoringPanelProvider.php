@@ -46,7 +46,7 @@ class MonitoringPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -64,7 +64,7 @@ class MonitoringPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->navigationItems([
-                NavigationItem::make('Login to Zabbix')
+                NavigationItem::make('Go To Zabbix')
                     ->url(env('ZABBIX_LINK'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-link')
             ])
