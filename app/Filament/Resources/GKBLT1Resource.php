@@ -29,7 +29,7 @@ class GKBLT1Resource extends Resource
 
     protected static ?string $pluralLabel = 'Mikrotik GKB LT1';
 
-    // protected static ?string $navigationGroup = 'Informasi Publik';
+    protected static ?string $navigationGroup = 'GKB';
 
     protected static ?int $navigationSort = 1;
 

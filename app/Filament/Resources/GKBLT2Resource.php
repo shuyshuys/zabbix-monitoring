@@ -27,6 +27,8 @@ class GKBLT2Resource extends Resource
 
     protected static ?string $navigationLabel = 'GKB LT2';
 
+    protected static ?string $navigationGroup = 'GKB';
+
     protected static ?int $navigationSort = 2;
 
     protected static ?int $sort = 2;
