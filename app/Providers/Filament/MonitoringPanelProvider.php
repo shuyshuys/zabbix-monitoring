@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
+use Filament\Navigation\NavigationGroup;
 use Filament\Widgets;
 use App\Models\Zabbix;
 use Filament\PanelProvider;
@@ -66,6 +67,11 @@ class MonitoringPanelProvider extends PanelProvider
                 NavigationItem::make('Login to Zabbix')
                     ->url(env('ZABBIX_LINK'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-link')
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('GKB')
+                    ->icon('heroicon-o-bolt'),
             ])
             ->plugins([
                 FilamentWebhookClientPlugin::make(),

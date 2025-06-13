@@ -17,7 +17,7 @@ class GKBLT1Resource extends Resource
 {
     protected static ?string $model = GKBLT1::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
+    // protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     protected static ?string $title = 'Mikrotik GKB LT1';
     // start
@@ -25,7 +25,7 @@ class GKBLT1Resource extends Resource
 
     protected static ?string $label = 'Mikrotik GKB LT1';
 
-    protected static ?string $navigationLabel = 'GKB LT1';
+    protected static ?string $navigationLabel = 'Mikrotik LT1';
 
     protected static ?string $pluralLabel = 'Mikrotik GKB LT1';
 
