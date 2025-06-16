@@ -8,6 +8,8 @@ use App\Services\ZabbixApiService;
 
 class DeviceOnlineOverview extends BaseWidget
 {
+    protected static ?int $sort = 2;
+
     protected function getHeading(): ?string
     {
         return 'Device Online Overview';
@@ -98,7 +100,7 @@ class DeviceOnlineOverview extends BaseWidget
                             ->description($status)
                             ->color($color)
                             ->descriptionIcon($icon);
-                            // ->icon('heroicon-o-building-office');
+                        // ->icon('heroicon-o-building-office');
                     }
                 }
             } catch (\Exception $e) {
@@ -157,7 +159,7 @@ class DeviceOnlineOverview extends BaseWidget
                             ->description($status)
                             ->color($color)
                             ->descriptionIcon($icon);
-                            // ->icon('heroicon-o-computer-desktop');
+                        // ->icon('heroicon-o-computer-desktop');
                     }
                 }
             } catch (\Exception $e) {

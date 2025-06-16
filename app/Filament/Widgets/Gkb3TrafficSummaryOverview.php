@@ -8,6 +8,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class Gkb3TrafficSummaryOverview extends BaseWidget
 {
+    protected static ?int $sort = 6;
+
     protected static ?string $pollingInterval = '60s';
 
     protected function getHeading(): ?string
@@ -39,7 +41,7 @@ class Gkb3TrafficSummaryOverview extends BaseWidget
                     ->icon('heroicon-o-arrow-up-circle')
                     ->color('info'),
                 Stat::make('Total Users', 'N/A')
-                    ->description('Jumlah pengguna aktif')
+                    ->description('Jumlah pengguna aktif dari DHCP')
                     ->icon('heroicon-o-users')
                     ->color('primary'),
             ];
@@ -190,7 +192,7 @@ class Gkb3TrafficSummaryOverview extends BaseWidget
                 ->icon('heroicon-o-arrow-up-circle')
                 ->color('info'),
             Stat::make('Total Users', $activeLeases)
-                ->description('Jumlah pengguna aktif')
+                ->description('Jumlah pengguna aktif dari DHCP')
                 ->icon('heroicon-o-users')
                 ->color('primary'),
         ];

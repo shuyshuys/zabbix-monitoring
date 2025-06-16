@@ -5,9 +5,12 @@ namespace App\Filament\Widgets;
 use App\Services\ZabbixApiService;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Illuminate\Support\Facades\Log;
 
 class Gkb1TrafficSummaryOverview extends BaseWidget
 {
+    protected static ?int $sort = 4;
+
     protected static ?string $pollingInterval = '60s';
 
     protected function getHeading(): ?string
@@ -39,7 +42,7 @@ class Gkb1TrafficSummaryOverview extends BaseWidget
                     ->icon('heroicon-o-arrow-up-circle')
                     ->color('info'),
                 Stat::make('Total Users', 'N/A')
-                    ->description('Jumlah pengguna aktif')
+                    ->description('Jumlah pengguna aktif dari DHCP')
                     ->icon('heroicon-o-users')
                     ->color('primary'),
             ];
@@ -190,7 +193,7 @@ class Gkb1TrafficSummaryOverview extends BaseWidget
                 ->icon('heroicon-o-arrow-up-circle')
                 ->color('info'),
             Stat::make('Total Users', $activeLeases)
-                ->description('Jumlah pengguna aktif')
+                ->description('Jumlah pengguna aktif dari DHCP')
                 ->icon('heroicon-o-users')
                 ->color('primary'),
         ];
