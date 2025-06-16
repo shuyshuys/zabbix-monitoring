@@ -4,13 +4,15 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use Filament\Navigation\NavigationGroup;
 use Filament\Widgets;
 use App\Models\Zabbix;
 use Filament\PanelProvider;
+use Filament\Enums\ThemeMode;
 use Filament\Support\Colors\Color;
+use JaOcero\FilaChat\FilaChatPlugin;
 use App\Filament\Widgets\HostWidgets;
 use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,9 +22,9 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Tapp\FilamentWebhookClient\FilamentWebhookClientPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\ZabbixResource\Widgets\ZabbixWidget;
-use Tapp\FilamentWebhookClient\FilamentWebhookClientPlugin;
 
 class MonitoringPanelProvider extends PanelProvider
 {
@@ -33,9 +35,11 @@ class MonitoringPanelProvider extends PanelProvider
             ->id('monitoring')
             ->path('monitoring')
             ->login()
+            // ->spa()
             ->topNavigation(true)
             ->databaseNotifications()
-            ->databaseNotificationsPolling('3s')
+            ->databaseNotificationsPolling('5s')
+            ->defaultThemeMode(ThemeMode::Dark)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -75,6 +79,11 @@ class MonitoringPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentWebhookClientPlugin::make(),
-            ]);
+                // FilaChatPlugin::make()
+            ])
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('images/logo.png'))
+            ->viteTheme('resources/css/filament/monitoring/theme.css');
     }
 }
