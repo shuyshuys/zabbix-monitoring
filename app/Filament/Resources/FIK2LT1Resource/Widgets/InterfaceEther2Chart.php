@@ -107,7 +107,7 @@ class InterfaceEther2Chart extends ChartWidget
             ]);
             $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
 
-            Log::info('History Data for Bits received', ['historyData' => $historyData]);
+            // Log::info('History Data for Bits received', ['historyData' => $historyData]);
 
             foreach ($historyData as $history) {
                 $receivedLabels[] = date('H:i', $history['clock']);
