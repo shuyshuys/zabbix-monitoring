@@ -83,7 +83,7 @@ class MonitoringPanelProvider extends PanelProvider
             ])
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('images/logo.png'))
-            ->viteTheme('resources/css/filament/monitoring/theme.css');
+            ->favicon(asset('images/logo.png'));
+        // ->viteTheme('resources/css/filament/monitoring/theme.css');
     }
 }
