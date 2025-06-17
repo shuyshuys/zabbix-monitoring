@@ -195,12 +195,111 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
             }
         }
 
-        // Konversi ke jam:menit:detik
+        // Ambil Uptime Hardware (Total Up)
+        $uptimeSeconds = 0;
+        try {
+            $uptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'jsonrpc' => '2.0',
+                    'method' => 'item.get',
+                    'params' => [
+                        'output' => ['itemid', 'name', 'key_'],
+                        'hostids' => $hostId,
+                        'search' => ['key_' => 'system.hw.uptime[hrSystemUptime.0]'],
+                    ],
+                    'id' => 20,
+                    'auth' => $authToken,
+                ],
+            ]);
+            $uptimeItemData = json_decode($uptimeItemResponse->getBody()->getContents(), true);
+            $uptimeItemId = $uptimeItemData['result'][0]['itemid'] ?? null;
+
+            if ($uptimeItemId) {
+                $uptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'jsonrpc' => '2.0',
+                        'method' => 'history.get',
+                        'params' => [
+                            'output' => 'extend',
+                            'history' => 3,
+                            'itemids' => [$uptimeItemId],
+                            'sortfield' => 'clock',
+                            'sortorder' => 'DESC',
+                            'limit' => 1,
+                        ],
+                        'id' => 21,
+                        'auth' => $authToken,
+                    ],
+                ]);
+                $uptimeHistoryData = json_decode($uptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
+                $uptimeSeconds = isset($uptimeHistoryData[0]['value']) ? (int)$uptimeHistoryData[0]['value'] : 0;
+            }
+        } catch (\Exception $e) {
+            // Optional: handle error
+        }
+
+        // Ambil Uptime Network (Total Down)
+        $netUptimeSeconds = 0;
+        try {
+            $netUptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'jsonrpc' => '2.0',
+                    'method' => 'item.get',
+                    'params' => [
+                        'output' => ['itemid', 'name', 'key_'],
+                        'hostids' => $hostId,
+                        'search' => ['key_' => 'system.net.uptime[sysUpTime.0]'],
+                    ],
+                    'id' => 30,
+                    'auth' => $authToken,
+                ],
+            ]);
+            $netUptimeItemData = json_decode($netUptimeItemResponse->getBody()->getContents(), true);
+            $netUptimeItemId = $netUptimeItemData['result'][0]['itemid'] ?? null;
+
+            if ($netUptimeItemId) {
+                $netUptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'jsonrpc' => '2.0',
+                        'method' => 'history.get',
+                        'params' => [
+                            'output' => 'extend',
+                            'history' => 3,
+                            'itemids' => [$netUptimeItemId],
+                            'sortfield' => 'clock',
+                            'sortorder' => 'DESC',
+                            'limit' => 1,
+                        ],
+                        'id' => 31,
+                        'auth' => $authToken,
+                    ],
+                ]);
+                $netUptimeHistoryData = json_decode($netUptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
+                $netUptimeSeconds = isset($netUptimeHistoryData[0]['value']) ? (int)$netUptimeHistoryData[0]['value'] : 0;
+            }
+        } catch (\Exception $e) {
+            // Optional: handle error
+        }
+
+        // Konversi ke days, jam:menit:detik
         $formatDuration = function ($seconds) {
-            $h = floor($seconds / 3600);
+            $days = floor($seconds / 86400);
+            $h = floor(($seconds % 86400) / 3600);
             $m = floor(($seconds % 3600) / 60);
             $s = $seconds % 60;
-            return sprintf('%02d:%02d:%02d', $h, $m, $s);
+            return sprintf('%d days, %02d:%02d:%02d', $days, $h, $m, $s);
         };
 
         return [
@@ -209,12 +308,12 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
                 ->label('Active Leases')
                 ->value($activeLeases)
                 ->color('info'),
-            Stat::make('Total Up', $formatDuration($totalUp))
-                ->description('Durasi status UP')
+            Stat::make('Uptime (Device)', $formatDuration($uptimeSeconds))
+                ->description('Uptime perangkat (system.hw.uptime)')
                 ->color('success'),
-            Stat::make('Total Down', $formatDuration($totalDown))
-                ->description('Durasi status DOWN')
-                ->color('danger'),
+            Stat::make('Uptime (Network)', $formatDuration($netUptimeSeconds))
+                ->description('Uptime jaringan (system.net.uptime)')
+                ->color('info'),
         ];
     }
 }
