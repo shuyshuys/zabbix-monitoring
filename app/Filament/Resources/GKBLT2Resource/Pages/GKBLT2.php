@@ -9,6 +9,14 @@ use App\Filament\Resources\GKBLT2Resource\Widgets\CpuChart;
 use App\Filament\Resources\GKBLT2Resource\Widgets\IcmpPingChart;
 use App\Filament\Resources\GKBLT2Resource\Widgets\MemoryChart;
 use App\Filament\Resources\GKBLT2Resource\Widgets\DhcpLeaseCountWidgets;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther1Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther2Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther3Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther4Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther5Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther6Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther7Chart;
+use App\Filament\Resources\GKBLT2Resource\Widgets\InterfaceEther8Chart;
 use Filament\Resources\Pages\Page;
 
 class GKBLT2 extends Page
@@ -28,6 +36,15 @@ class GKBLT2 extends Page
 
             IcmpPingChart::class,
             LinkStatusChart::class,
+
+            InterfaceEther1Chart::class,
+            InterfaceEther2Chart::class,
+            InterfaceEther3Chart::class,
+            InterfaceEther4Chart::class,
+            InterfaceEther5Chart::class,
+            InterfaceEther6Chart::class,
+            InterfaceEther7Chart::class,
+            InterfaceEther8Chart::class,
         ];
     }
 
