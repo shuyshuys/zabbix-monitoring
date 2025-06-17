@@ -25,7 +25,7 @@ class FIK2LT1Resource extends Resource
 
     protected static ?string $label = 'Mikrotik FIK2 LT1';
 
-    protected static ?string $navigationLabel = 'FIK2 LT1';
+    protected static ?string $navigationLabel = 'FIK2 CCR1009-7G-1C-1S+';
 
     protected static ?string $pluralLabel = 'Mikrotik FIK2 LT1';
 
