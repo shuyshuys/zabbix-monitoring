@@ -6,7 +6,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget;
 use App\Services\ZabbixApiService;
 
-class IcmpUpDownPeriodWidget extends StatsOverviewWidget
+class DhcpLeaseCountWidgets extends StatsOverviewWidget
 {
     protected static ?string $pollingInterval = '180s';
 
