@@ -10,6 +10,11 @@ use App\Filament\Resources\FIK2LT1Resource\Widgets\TracerouteWidget;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\IcmpPingChart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther1Chart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther2Chart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther3Chart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther4Chart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther5Chart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther6Chart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther7Chart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\LinkStatusChart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\MemoryChart;
 
@@ -33,6 +38,11 @@ class FIK2LT1 extends Page
 
             InterfaceEther1Chart::class,
             InterfaceEther2Chart::class,
+            InterfaceEther3Chart::class,
+            InterfaceEther4Chart::class,
+            InterfaceEther5Chart::class,
+            InterfaceEther6Chart::class,
+            InterfaceEther7Chart::class,
         ];
     }
 
