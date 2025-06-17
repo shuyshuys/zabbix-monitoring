@@ -121,87 +121,114 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
         $historyData = json_decode($response->getBody()->getContents(), true)['result'] ?? [];
         $activeLeases = $historyData[0]['value'] ?? '0';
 
-
-        // Ganti dengan itemid ICMP status Anda
-        $icmpStatusItemId = '49916';
-
-        // Ambil 1000 data terakhir (atau lebih jika ingin periode lebih panjang)
-        $statusResponse = $client->request('POST', $zabbixService->getUrl(), [
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'jsonrpc' => '2.0',
-                'method' => 'history.get',
-                'params' => [
-                    'output' => 'extend',
-                    'history' => 3, // 3 = numeric unsigned (ICMP status biasanya unsigned)
-                    'itemids' => [$icmpStatusItemId],
-                    'sortfield' => 'clock',
-                    'sortorder' => 'ASC', // Urutkan dari lama ke baru
-                    'limit' => 1000,
+        // Ambil Uptime Hardware (Total Up)
+        $uptimeSeconds = 0;
+        try {
+            $uptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
+                'headers' => [
+                    'Content-Type' => 'application/json',
                 ],
-                'id' => 1,
-                'auth' => $authToken,
-            ],
-        ]);
-        $statusData = json_decode($statusResponse->getBody()->getContents(), true)['result'] ?? [];
-        // Log::info('ICMP Status Data: ', $statusData);
+                'json' => [
+                    'jsonrpc' => '2.0',
+                    'method' => 'item.get',
+                    'params' => [
+                        'output' => ['itemid', 'name', 'key_'],
+                        'hostids' => $hostId,
+                        'search' => ['key_' => 'system.hw.uptime[hrSystemUptime.0]'],
+                    ],
+                    'id' => 20,
+                    'auth' => $authToken,
+                ],
+            ]);
+            $uptimeItemData = json_decode($uptimeItemResponse->getBody()->getContents(), true);
+            $uptimeItemId = $uptimeItemData['result'][0]['itemid'] ?? null;
 
-        // Hitung periode up/down
-        $periods = [];
-        $lastStatus = null;
-        $lastChange = null;
-
-        foreach ($statusData as $entry) {
-            $status = (int)$entry['value'];
-            $time = (int)$entry['clock'];
-
-            if ($lastStatus === null) {
-                $lastStatus = $status;
-                $lastChange = $time;
-                continue;
+            if ($uptimeItemId) {
+                $uptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'jsonrpc' => '2.0',
+                        'method' => 'history.get',
+                        'params' => [
+                            'output' => 'extend',
+                            'history' => 3,
+                            'itemids' => [$uptimeItemId],
+                            'sortfield' => 'clock',
+                            'sortorder' => 'DESC',
+                            'limit' => 1,
+                        ],
+                        'id' => 21,
+                        'auth' => $authToken,
+                    ],
+                ]);
+                $uptimeHistoryData = json_decode($uptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
+                $uptimeSeconds = isset($uptimeHistoryData[0]['value']) ? (int)$uptimeHistoryData[0]['value'] : 0;
             }
-
-            if ($status !== $lastStatus) {
-                $periods[] = [
-                    'status' => $lastStatus,
-                    'start' => $lastChange,
-                    'end' => $time,
-                    'duration' => $time - $lastChange,
-                ];
-                $lastStatus = $status;
-                $lastChange = $time;
-            }
-        }
-        // Tambahkan periode terakhir
-        if ($lastStatus !== null && $lastChange !== null) {
-            $periods[] = [
-                'status' => $lastStatus,
-                'start' => $lastChange,
-                'end' => time(),
-                'duration' => time() - $lastChange,
-            ];
+        } catch (\Exception $e) {
+            // Optional: handle error
         }
 
-        // Hitung total up/down
-        $totalUp = 0;
-        $totalDown = 0;
-        foreach ($periods as $period) {
-            if ($period['status'] == 1) {
-                $totalUp += $period['duration'];
-            } else {
-                $totalDown += $period['duration'];
+        // Ambil Uptime Network (Total Down)
+        $netUptimeSeconds = 0;
+        try {
+            $netUptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'jsonrpc' => '2.0',
+                    'method' => 'item.get',
+                    'params' => [
+                        'output' => ['itemid', 'name', 'key_'],
+                        'hostids' => $hostId,
+                        'search' => ['key_' => 'system.net.uptime[sysUpTime.0]'],
+                    ],
+                    'id' => 30,
+                    'auth' => $authToken,
+                ],
+            ]);
+            $netUptimeItemData = json_decode($netUptimeItemResponse->getBody()->getContents(), true);
+            $netUptimeItemId = $netUptimeItemData['result'][0]['itemid'] ?? null;
+
+            if ($netUptimeItemId) {
+                $netUptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'jsonrpc' => '2.0',
+                        'method' => 'history.get',
+                        'params' => [
+                            'output' => 'extend',
+                            'history' => 3,
+                            'itemids' => [$netUptimeItemId],
+                            'sortfield' => 'clock',
+                            'sortorder' => 'DESC',
+                            'limit' => 1,
+                        ],
+                        'id' => 31,
+                        'auth' => $authToken,
+                    ],
+                ]);
+                $netUptimeHistoryData = json_decode($netUptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
+                $netUptimeSeconds = isset($netUptimeHistoryData[0]['value']) ? (int)$netUptimeHistoryData[0]['value'] : 0;
             }
+        } catch (\Exception $e) {
+            // Optional: handle error
         }
+
 
         // Konversi ke jam:menit:detik
         $formatDuration = function ($seconds) {
-            $h = floor($seconds / 3600);
+            $days = floor($seconds / 86400);
+            $h = floor(($seconds % 86400) / 3600);
             $m = floor(($seconds % 3600) / 60);
             $s = $seconds % 60;
-            return sprintf('%02d:%02d:%02d', $h, $m, $s);
+            return sprintf('%d days, %02d:%02d:%02d', $days, $h, $m, $s);
         };
+
 
         return [
             Stat::make('Active Leases', 'active_leases')
@@ -209,12 +236,12 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
                 ->label('Active Leases')
                 ->value($activeLeases)
                 ->color('info'),
-            Stat::make('Total Up', $formatDuration($totalUp))
-                ->description('Durasi status UP')
+            Stat::make('Uptime (Device)', $formatDuration($uptimeSeconds))
+                ->description('Uptime perangkat (system.hw.uptime)')
                 ->color('success'),
-            Stat::make('Total Down', $formatDuration($totalDown))
-                ->description('Durasi status DOWN')
-                ->color('danger'),
+            Stat::make('Uptime (Network)', $formatDuration($netUptimeSeconds))
+                ->description('Uptime jaringan (system.net.uptime)')
+                ->color('info'),
         ];
     }
 }
