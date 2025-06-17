@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\FIK2LT1Resource\Widgets;
 
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
-// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
 
 class CpuChart extends ChartWidget
 {
@@ -13,6 +14,10 @@ class CpuChart extends ChartWidget
     protected static ?string $pollingInterval = '180s';
 
     public ?string $filter = '1hour';
+
+    protected int | string | array $columnSpan = 'full';
+
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
@@ -150,5 +155,38 @@ class CpuChart extends ChartWidget
             'week' => 'Last week',
             'month' => 'Last month',
         ];
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<JS
+    {
+        responsive: true,
+        scales: {
+            y: {
+                min:  0,
+                max:  100,
+                beginAtZero: true,
+                ticks: {
+                    callback: (value) => value + '%',
+                },
+            },
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(context.raw) + '%';
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+    JS);
     }
 }

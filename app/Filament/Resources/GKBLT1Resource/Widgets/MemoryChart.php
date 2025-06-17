@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\GKBLT1Resource\Widgets;
 
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
 use Illuminate\Support\Facades\Log;
@@ -10,9 +11,13 @@ class MemoryChart extends ChartWidget
 {
     protected static ?string $heading = 'Memory Usage';
 
-    protected static ?string $pollingInterval = '180s';
+    protected static ?string $pollingInterval = '120s';
 
     public ?string $filter = '1hour';
+
+    protected int | string | array $columnSpan = 'full';
+
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
@@ -133,19 +138,7 @@ class MemoryChart extends ChartWidget
                     'borderColor' => '#4CAF50',
                     'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
                 ]
-            ],
-            'options' => [
-                'scales' => [
-                    'y' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'ticks' => [
-                            'stepSize' => 10,
-                            'callback' => 'function(value) { return value + "%"; }',
-                        ],
-                    ],
-                ],
-            ],
+            ]
         ];
     }
 
@@ -169,5 +162,43 @@ class MemoryChart extends ChartWidget
             'week' => 'Last week',
             'month' => 'Last month',
         ];
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<JS
+    {
+        responsive: true,
+        scales: {
+            y: {
+                min:  0,
+                max:  100,
+                beginAtZero: true,
+                ticks: {
+                    callback: (value) => value + '%',
+                },
+            },
+            x: {
+                ticks: {
+                    autoSkip: false
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(context.raw) + '%';
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+    JS);
     }
 }

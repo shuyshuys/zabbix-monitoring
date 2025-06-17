@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\GKBLT1Resource\Widgets;
 
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,7 @@ class IcmpPingChart extends ChartWidget
 
     public ?string $filter = '1hour';
 
-    protected static ?string $pollingInterval = '180s';
+    protected static ?string $pollingInterval = '120s';
 
     protected function getData(): array
     {
@@ -96,7 +97,7 @@ class IcmpPingChart extends ChartWidget
                     'itemids' => $icmpStatusItemId,
                     'sortfield' => 'clock',
                     'sortorder' => 'DESC',
-                    'limit' => 25,
+                    'limit' => 50,
                     'time_from' => $timeFrom,
                     'time_till' => $timeTill,
                 ],
@@ -152,6 +153,13 @@ class IcmpPingChart extends ChartWidget
         $statusValues = array_reverse($statusValues);
         $responseTimeValues = array_reverse($responseTimeValues);
 
+        // for ($i = 0; $i < $count; $i++) {
+        //     $labels[] = date('H:i', $statusData[$i]['clock']);
+        //     $statusValues[] = (int)$statusData[$i]['value'];
+        //     // Ubah ke ms
+        //     $responseTimeMsValues[] = round((float)$responseTimeData[$i]['value'] * 1000, 2);
+        // }
+
         return [
             'labels' => $labels,
             'datasets' => [
@@ -193,5 +201,20 @@ class IcmpPingChart extends ChartWidget
             'week' => 'Last week',
             'month' => 'Last month',
         ];
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<JS
+    {
+        responsive: true,
+        scales: {
+            y: {
+                min: 0,
+                max: 3,
+            },
+        }
+    }
+    JS);
     }
 }
