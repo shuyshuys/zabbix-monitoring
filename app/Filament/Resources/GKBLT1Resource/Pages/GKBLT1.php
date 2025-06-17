@@ -20,7 +20,6 @@ use App\Filament\Resources\GKBLT1Resource\Widgets\InterfaceEther5Chart;
 use App\Filament\Resources\GKBLT1Resource\Widgets\InterfaceEther6Chart;
 use App\Filament\Resources\GKBLT1Resource\Widgets\InterfaceEther7Chart;
 use App\Filament\Resources\GKBLT1Resource\Widgets\DhcpLeaseCountWidgets;
-use App\Filament\Resources\GKBLT1Resource\Widgets\IcmpUpDownPeriodWidget;
 
 class GKBLT1 extends Page
 {
@@ -31,7 +30,7 @@ class GKBLT1 extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            IcmpUpDownPeriodWidget::class,
+            DhcpLeaseCountWidgets::class,
             TracerouteWidget::class,
 
             CpuChart::class,
