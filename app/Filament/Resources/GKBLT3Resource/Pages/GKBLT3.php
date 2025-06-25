@@ -9,6 +9,8 @@ use App\Filament\Resources\GKBLT3Resource\Widgets\LinkStatusChart;
 use App\Filament\Resources\GKBLT3Resource\Widgets\MemoryChart;
 use App\Filament\Resources\GKBLT3Resource\Widgets\TracerouteWidget;
 use App\Filament\Resources\GKBLT3Resource\Widgets\DhcpLeaseCountWidgets;
+use App\Filament\Resources\GKBLT3Resource\Widgets\InterfaceEther1Chart;
+use App\Filament\Resources\GKBLT3Resource\Widgets\InterfaceEther2Chart;
 use Filament\Resources\Pages\Page;
 
 class GKBLT3 extends Page
@@ -28,6 +30,9 @@ class GKBLT3 extends Page
 
             IcmpPingChart::class,
             LinkStatusChart::class,
+
+            InterfaceEther1Chart::class,
+            InterfaceEther2Chart::class,
         ];
     }
 
