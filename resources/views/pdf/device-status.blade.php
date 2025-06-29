@@ -1,12 +1,32 @@
-{{-- filepath: resources/views/filament/resources/report-resource/pages/device-status-report.blade.php --}}
-<x-filament::page>
-    <x-filament::button color="primary" tag="a"
-        href="{{ route('filament.resources.report-resource.pages.device-status-report.download-pdf') }}" class="mb-4"
-        target="_blank">
-        Download PDF
-    </x-filament::button>
+{{-- filepath: resources/views/exports/device-status-report.blade.php --}}
+<!DOCTYPE html>
+<html>
 
-    <table class="min-w-full text-sm">
+<head>
+    <meta charset="utf-8">
+    <title>Laporan Status Perangkat</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 4px;
+        }
+
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Laporan Status Perangkat (Up/Down)</h2>
+    <table>
         <thead>
             <tr>
                 <th>Gedung</th>
@@ -30,4 +50,6 @@
             @endforeach
         </tbody>
     </table>
-</x-filament::page>
+</body>
+
+</html>

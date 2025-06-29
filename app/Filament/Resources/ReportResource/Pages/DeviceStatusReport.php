@@ -2,33 +2,39 @@
 
 namespace App\Filament\Resources\ReportResource\Pages;
 
+use Filament\Tables;
+use Filament\Actions\Action;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\ZabbixApiService;
 use Filament\Resources\Pages\Page;
-use App\Filament\Resources\ReportResource;
 use Illuminate\Support\Facades\Log;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Resources\ReportResource;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class DeviceStatusReport extends Page
+class DeviceStatusReport extends Page implements Tables\Contracts\HasTable
 {
-    protected static string $resource = ReportResource::class;
+    use InteractsWithTable;
 
+
+    protected static string $resource = ReportResource::class;
     protected static string $view = 'filament.resources.report-resource.pages.device-status-report';
 
-    public $devices = [];
+    public array $devices = [];
 
-    public function mount()
+    public function mount(): void
+    {
+        $this->loadData();
+    }
+
+    public function loadData(): void
     {
         $zabbix = new ZabbixApiService();
         $hosts = $zabbix->getHosts();
-        Log::info('All hosts from Zabbix API:', $hosts);
         $hostIds = array_column($hosts, 'hostid');
         $interfaces = $zabbix->getHostInterfaces($hostIds);
 
-        Log::info('Fetching device status report', [
-            'host_count' => count($hosts),
-            'interface_count' => count($interfaces),
-        ]);
-
-        // Gabungkan data host dan interface
         $interfaceMap = [];
         foreach ($interfaces as $iface) {
             $interfaceMap[$iface['hostid']] = $iface;
@@ -38,14 +44,59 @@ class DeviceStatusReport extends Page
         foreach ($hosts as $host) {
             $iface = $interfaceMap[$host['hostid']] ?? null;
             $this->devices[] = [
-                'gedung' => $host['groups'][0]['name'] ?? '-', // Atur sesuai struktur group Anda
+                'gedung' => $host['groups'][0]['name'] ?? '-',
                 'lantai' => $host['groups'][1]['name'] ?? '-',
                 'nama' => $host['name'] ?? $host['host'],
                 'ip' => $iface['ip'] ?? '-',
                 'status' => $host['status'] == 0 ? 'Up' : 'Down',
-                // 'available' => $host['available'] == 1 ? 'Available' : 'Unavailable',
                 'last_down' => $host['error'] ?? '-',
             ];
         }
+    }
+
+    // Filament Table definition
+    protected function getTableQuery()
+    {
+        // Data array as a collection
+        return collect($this->devices);
+    }
+
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('gedung')->label('Gedung'),
+            TextColumn::make('lantai')->label('Lantai'),
+            TextColumn::make('nama')->label('Nama Perangkat'),
+            TextColumn::make('ip')->label('IP'),
+            TextColumn::make('status')->label('Status')
+                ->color(fn($record) => $record['status'] === 'Up' ? 'success' : 'danger')
+                ->badge(),
+            TextColumn::make('last_down')->label('Waktu Terakhir Down'),
+        ];
+    }
+
+    // Tombol download PDF
+    public function downloadPdf(): StreamedResponse
+    {
+        $this->loadData();
+
+        $pdf = Pdf::loadView('exports.device-status-report', [
+            'devices' => $this->devices,
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'laporan-status-perangkat_' . now()->format('Ymd_His') . '.pdf');
+    }
+
+    public function getActions(): array
+    {
+        return [
+            Action::make('downloadPdf')
+                ->label('Download PDF')
+                ->action('downloadPdf')
+                ->color('primary')
+                ->icon('heroicon-o-arrow-down-tray'),
+        ];
     }
 }
