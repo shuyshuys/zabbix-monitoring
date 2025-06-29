@@ -20,6 +20,10 @@ class ReportResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
+    protected static ?int $navigationSort = 2;
+
+    protected static ?int $sort = 2;
+
     public static function form(Form $form): Form
     {
         return $form

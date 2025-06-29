@@ -31,7 +31,7 @@ class GKBLT1Resource extends Resource
 
     protected static ?string $navigationGroup = 'GKB';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     protected static ?int $sort = 1;
     // end

@@ -17,7 +17,7 @@ class FIK2LT1Resource extends Resource
 {
     // protected static ?string $model = FIK2LT1::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
+    // protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     protected static ?string $title = 'Mikrotik FIK2 LT1';
     // start
@@ -29,9 +29,9 @@ class FIK2LT1Resource extends Resource
 
     protected static ?string $pluralLabel = 'Mikrotik FIK2 LT1';
 
-    // protected static ?string $navigationGroup = 'Informasi Publik';
+    protected static ?string $navigationGroup = 'FIK';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 1;
 
     protected static ?int $sort = 4;
     // end
