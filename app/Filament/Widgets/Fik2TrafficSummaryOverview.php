@@ -124,32 +124,32 @@ class Fik2TrafficSummaryOverview extends BaseWidget
 
         foreach ($items as $item) {
             // Inbound: net.if.in[ifHCInOctets.X]
-            // if (isset($item['key_']) && str_starts_with($item['key_'], 'net.if.in[ifHCInOctets.')) {
-            //     $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
-            //         'headers' => [
-            //             'Content-Type' => 'application/json',
-            //         ],
-            //         'json' => [
-            //             'jsonrpc' => '2.0',
-            //             'method' => 'history.get',
-            //             'params' => [
-            //                 'output' => 'extend',
-            //                 'history' => 3,
-            //                 'itemids' => [$item['itemid']],
-            //                 'sortfield' => 'clock',
-            //                 'sortorder' => 'DESC',
-            //                 'limit' => 1,
-            //             ],
-            //             'id' => 2,
-            //             'auth' => $authToken,
-            //         ],
-            //     ]);
-            //     $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-            //     if (!empty($historyData)) {
-            //         // value dalam bit per detik, konversi ke Mbps
-            //         $totalInbound += $historyData[0]['value'] / 1000000;
-            //     }
-            // }
+            if (isset($item['key_']) && str_starts_with($item['key_'], 'net.if.in[ifHCInOctets.')) {
+                $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'jsonrpc' => '2.0',
+                        'method' => 'history.get',
+                        'params' => [
+                            'output' => 'extend',
+                            'history' => 3,
+                            'itemids' => [$item['itemid']],
+                            'sortfield' => 'clock',
+                            'sortorder' => 'DESC',
+                            'limit' => 1,
+                        ],
+                        'id' => 2,
+                        'auth' => $authToken,
+                    ],
+                ]);
+                $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
+                if (!empty($historyData)) {
+                    // value dalam bit per detik, konversi ke Mbps
+                    $totalInbound += $historyData[0]['value'] / 1000000;
+                }
+            }
             // Outbound: net.if.out[ifHCOutOctets.X]
             if (isset($item['key_']) && str_starts_with($item['key_'], 'net.if.out[ifHCOutOctets.')) {
                 $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
