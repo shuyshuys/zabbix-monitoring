@@ -68,14 +68,18 @@ class MonitoringPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->navigationItems([
-                NavigationItem::make('Go To Zabbix')
+                NavigationItem::make('Zabbix')
                     ->url(env('ZABBIX_LINK'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-link')
             ])
             ->navigationGroups([
                 NavigationGroup::make()
+                    ->label('FIK')
+                    ->icon('heroicon-o-bolt'),
+                NavigationGroup::make()
                     ->label('GKB')
                     ->icon('heroicon-o-bolt'),
+
             ])
             ->plugins([
                 FilamentWebhookClientPlugin::make(),
