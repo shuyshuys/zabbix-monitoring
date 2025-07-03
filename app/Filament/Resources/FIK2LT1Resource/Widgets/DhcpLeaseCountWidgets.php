@@ -5,7 +5,6 @@ namespace App\Filament\Resources\FIK2LT1Resource\Widgets;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget;
 use App\Services\ZabbixApiService;
-use Illuminate\Support\Facades\Log;
 
 class DhcpLeaseCountWidgets extends StatsOverviewWidget
 {
@@ -13,167 +12,11 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $zabbixService = new ZabbixApiService();
-        $authToken = $zabbixService->getAuthToken();
-        $hosts = $zabbixService->getHosts();
-        $client = new \GuzzleHttp\Client();
+        $hostName = 'mikrotik-fik-2';
 
-        $hostId = null;
-        foreach ($hosts as $host) {
-            if ($host['host'] === 'mikrotik-fik-2') {
-                $hostId = $host['hostid'];
-                break;
-            }
-        }
+        $zabbix = new ZabbixApiService();
+        $stats = $zabbix->getDhcpLeaseAndUptimeStats($hostName);
 
-        // Ambil Active Leases
-        $activeLeases = '0';
-        try {
-            $response = $client->request('POST', $zabbixService->getUrl(), [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'jsonrpc' => '2.0',
-                    'method' => 'item.get',
-                    'params' => [
-                        'output' => ['itemid', 'name', 'key_'],
-                        'hostids' => $hostId,
-                        'search' => ['key_' => 'mtxrDHCPLeaseCount'],
-                    ],
-                    'id' => 1,
-                    'auth' => $authToken,
-                ],
-            ]);
-            $data = json_decode($response->getBody()->getContents(), true);
-            $itemId = $data['result'][0]['itemid'] ?? null;
-
-            if ($itemId) {
-                $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'jsonrpc' => '2.0',
-                        'method' => 'history.get',
-                        'params' => [
-                            'output' => 'extend',
-                            'history' => 3,
-                            'itemids' => [$itemId],
-                            'sortfield' => 'clock',
-                            'sortorder' => 'DESC',
-                            'limit' => 1,
-                        ],
-                        'id' => 2,
-                        'auth' => $authToken,
-                    ],
-                ]);
-                $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-                $activeLeases = $historyData[0]['value'] ?? '0';
-            }
-        } catch (\Exception $e) {
-            // Optional: handle error
-        }
-
-        // Ambil Uptime Hardware (Total Up)
-        $uptimeSeconds = 0;
-        try {
-            $uptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'jsonrpc' => '2.0',
-                    'method' => 'item.get',
-                    'params' => [
-                        'output' => ['itemid', 'name', 'key_'],
-                        'hostids' => $hostId,
-                        'search' => ['key_' => 'system.hw.uptime[hrSystemUptime.0]'],
-                    ],
-                    'id' => 20,
-                    'auth' => $authToken,
-                ],
-            ]);
-            $uptimeItemData = json_decode($uptimeItemResponse->getBody()->getContents(), true);
-            $uptimeItemId = $uptimeItemData['result'][0]['itemid'] ?? null;
-
-            if ($uptimeItemId) {
-                $uptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'jsonrpc' => '2.0',
-                        'method' => 'history.get',
-                        'params' => [
-                            'output' => 'extend',
-                            'history' => 3,
-                            'itemids' => [$uptimeItemId],
-                            'sortfield' => 'clock',
-                            'sortorder' => 'DESC',
-                            'limit' => 1,
-                        ],
-                        'id' => 21,
-                        'auth' => $authToken,
-                    ],
-                ]);
-                $uptimeHistoryData = json_decode($uptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
-                $uptimeSeconds = isset($uptimeHistoryData[0]['value']) ? (int)$uptimeHistoryData[0]['value'] : 0;
-            }
-        } catch (\Exception $e) {
-            // Optional: handle error
-        }
-
-        // Ambil Uptime Network (Total Down)
-        $netUptimeSeconds = 0;
-        try {
-            $netUptimeItemResponse = $client->request('POST', $zabbixService->getUrl(), [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'jsonrpc' => '2.0',
-                    'method' => 'item.get',
-                    'params' => [
-                        'output' => ['itemid', 'name', 'key_'],
-                        'hostids' => $hostId,
-                        'search' => ['key_' => 'system.net.uptime[sysUpTime.0]'],
-                    ],
-                    'id' => 30,
-                    'auth' => $authToken,
-                ],
-            ]);
-            $netUptimeItemData = json_decode($netUptimeItemResponse->getBody()->getContents(), true);
-            $netUptimeItemId = $netUptimeItemData['result'][0]['itemid'] ?? null;
-
-            if ($netUptimeItemId) {
-                $netUptimeHistoryResponse = $client->request('POST', $zabbixService->getUrl(), [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'jsonrpc' => '2.0',
-                        'method' => 'history.get',
-                        'params' => [
-                            'output' => 'extend',
-                            'history' => 3,
-                            'itemids' => [$netUptimeItemId],
-                            'sortfield' => 'clock',
-                            'sortorder' => 'DESC',
-                            'limit' => 1,
-                        ],
-                        'id' => 31,
-                        'auth' => $authToken,
-                    ],
-                ]);
-                $netUptimeHistoryData = json_decode($netUptimeHistoryResponse->getBody()->getContents(), true)['result'] ?? [];
-                $netUptimeSeconds = isset($netUptimeHistoryData[0]['value']) ? (int)$netUptimeHistoryData[0]['value'] : 0;
-            }
-        } catch (\Exception $e) {
-            // Optional: handle error
-        }
-
-        // Format durasi uptime
         $formatDuration = function ($seconds) {
             $days = floor($seconds / 86400);
             $h = floor(($seconds % 86400) / 3600);
@@ -183,15 +26,13 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
         };
 
         return [
-            Stat::make('Active Leases', 'active_leases')
+            Stat::make('Active Leases', $stats['activeLeases'])
                 ->description('Jumlah DHCP aktif')
-                ->label('Active Leases')
-                ->value($activeLeases)
                 ->color('info'),
-            Stat::make('Uptime (Device)', $formatDuration($uptimeSeconds))
+            Stat::make('Uptime (Device)', $formatDuration($stats['uptimeSeconds']))
                 ->description('Uptime perangkat (system.hw.uptime)')
                 ->color('success'),
-            Stat::make('Uptime (Network)', $formatDuration($netUptimeSeconds))
+            Stat::make('Uptime (Network)', $formatDuration($stats['netUptimeSeconds']))
                 ->description('Uptime jaringan (system.net.uptime)')
                 ->color('info'),
         ];

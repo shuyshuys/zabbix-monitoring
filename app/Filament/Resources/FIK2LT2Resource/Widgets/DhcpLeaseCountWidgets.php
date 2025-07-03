@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\GKBLT3Resource\Widgets;
+namespace App\Filament\Resources\FIK2LT2Resource\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget;
@@ -12,7 +12,7 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $hostName = 'mikrotik-gkb-lt3';
+        $hostName = 'mikrotik-fik-msi';
 
         $zabbix = new ZabbixApiService();
         $stats = $zabbix->getDhcpLeaseAndUptimeStats($hostName);
@@ -26,7 +26,9 @@ class DhcpLeaseCountWidgets extends StatsOverviewWidget
         };
 
         return [
-            // Stat::make('Active Leass
+            Stat::make('Active Leases', $stats['activeLeases'])
+                ->description('Jumlah DHCP aktif')
+                ->color('info'),
             Stat::make('Uptime (Device)', $formatDuration($stats['uptimeSeconds']))
                 ->description('Uptime perangkat (system.hw.uptime)')
                 ->color('success'),

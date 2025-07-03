@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\GKBLT3Resource\Widgets;
+namespace App\Filament\Resources\FIK2LT2Resource\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
@@ -14,7 +14,7 @@ class LinkStatusChart extends ChartWidget
     protected function getData(): array
     {
         $zabbix = new ZabbixApiService();
-        $hostName = 'mikrotik-gkb-lt1';
+        $hostName = 'mikrotik-fik-msi';
 
         // Data per 30 menit
         $result = $zabbix->getLinkStatusHistoryByHost($hostName, $this->filter, 30);
