@@ -7,7 +7,7 @@ use App\Services\ZabbixApiService;
 
 class InterfaceEther5Chart extends ChartWidget
 {
-    protected static ?string $heading = 'Interface Ether5 Traffic';
+    protected static ?string $heading = 'Interface Ether5 (LT 6) Traffic';
 
     protected static ?string $pollingInterval = '180s';
 

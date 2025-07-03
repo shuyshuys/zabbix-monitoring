@@ -5,9 +5,9 @@ namespace App\Filament\Resources\FIK2LT1Resource\Widgets;
 use Filament\Widgets\ChartWidget;
 use App\Services\ZabbixApiService;
 
-class InterfaceEther7Chart extends ChartWidget
+class InterfaceCombo1Chart extends ChartWidget
 {
-    protected static ?string $heading = 'Interface Ether7 Traffic';
+    protected static ?string $heading = 'Interface Combo1 Traffic';
     protected static ?string $pollingInterval = '600s';
     public ?string $filter = '1hour';
 
@@ -15,7 +15,7 @@ class InterfaceEther7Chart extends ChartWidget
     {
         $hostName = 'mikrotik-fik-2';
         $zabbix = new ZabbixApiService();
-        return $zabbix->getInterfaceTraffic($hostName, $this->filter, 'ether7');
+        return $zabbix->getInterfaceTraffic($hostName, $this->filter, 'combo1');
     }
 
     protected function getType(): string
@@ -25,7 +25,7 @@ class InterfaceEther7Chart extends ChartWidget
 
     protected function getTitle(): string
     {
-        return 'Ether7 Traffic Chart';
+        return 'Combo1 Traffic Chart';
     }
 
     protected function getFilters(): ?array
