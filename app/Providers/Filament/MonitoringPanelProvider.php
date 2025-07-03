@@ -79,10 +79,16 @@ class MonitoringPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('GKB')
                     ->icon('heroicon-o-bolt'),
-
+                NavigationGroup::make()
+                    ->label('Report')
+                    ->icon('heroicon-o-document-duplicate'),
             ])
             ->plugins([
                 FilamentWebhookClientPlugin::make(),
+                \TomatoPHP\FilamentLogger\FilamentLoggerPlugin::make(),
+                \ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin::make()
+                    ->authorize(fn(): bool => auth()->user()->email === 'admin@gmail.com'),
+                // \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make()
                 // FilaChatPlugin::make()
             ])
             ->brandLogo(asset('images/logo.png'))
