@@ -6,7 +6,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Services\ZabbixApiService;
 
-class Fik2TrafficSummaryOverview extends BaseWidget
+class Fik2Lt1TrafficSummaryOverview extends BaseWidget
 {
     protected static ?int $sort = 3;
 
