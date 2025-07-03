@@ -38,11 +38,11 @@ class GKBLT3 extends Page
 
     public function getBreadcrumb(): string
     {
-        return 'Graphs';
+        return 'Dashboard';
     }
 
     public function getTitle(): string
     {
-        return 'Dashboard Mikrotik GKB LT3';
+        return 'Mikrotik GKB Lantai 3 - CRS112-8G-4S-IN';
     }
 }

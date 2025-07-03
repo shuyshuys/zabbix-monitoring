@@ -38,23 +38,23 @@ class GKBLT2 extends Page
             LinkStatusChart::class,
 
             InterfaceEther1Chart::class,
-            InterfaceEther2Chart::class,
-            InterfaceEther3Chart::class,
-            InterfaceEther4Chart::class,
-            InterfaceEther5Chart::class,
-            InterfaceEther6Chart::class,
-            InterfaceEther7Chart::class,
-            InterfaceEther8Chart::class,
+            // InterfaceEther2Chart::class,
+            // InterfaceEther3Chart::class,
+            // InterfaceEther4Chart::class,
+            // InterfaceEther5Chart::class,
+            // InterfaceEther6Chart::class,
+            // InterfaceEther7Chart::class,
+            // InterfaceEther8Chart::class,
         ];
     }
 
     public function getBreadcrumb(): string
     {
-        return 'Graphs';
+        return 'Dashboard';
     }
 
     public function getTitle(): string
     {
-        return 'Dashboard Mikrotik GKB LT2';
+        return 'Mikrotik GKB Lantai 2 - CRS112-8G-4S-IN';
     }
 }

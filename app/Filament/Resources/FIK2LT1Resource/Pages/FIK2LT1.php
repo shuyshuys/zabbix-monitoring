@@ -8,6 +8,7 @@ use App\Filament\Resources\FIK2LT1Resource\Widgets\CpuChart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\DhcpLeaseCountWidgets;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\TracerouteWidget;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\IcmpPingChart;
+use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceCombo1Chart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther1Chart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther2Chart;
 use App\Filament\Resources\FIK2LT1Resource\Widgets\InterfaceEther3Chart;
@@ -36,6 +37,7 @@ class FIK2LT1 extends Page
             LinkStatusChart::class,
             IcmpPingChart::class,
 
+            InterfaceCombo1Chart::class,
             InterfaceEther1Chart::class,
             InterfaceEther2Chart::class,
             InterfaceEther3Chart::class,
@@ -48,11 +50,11 @@ class FIK2LT1 extends Page
 
     public function getBreadcrumb(): string
     {
-        return 'Graphs';
+        return 'Dashboard';
     }
 
     public function getTitle(): string
     {
-        return 'Dashboard Mikrotik FIK2 LT1';
+        return 'Mikrotik FIK2 Lantai 1 - CCR1009-7G-1C-1S+';
     }
 }

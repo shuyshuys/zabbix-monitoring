@@ -52,11 +52,11 @@ class GKBLT1 extends Page
 
     public function getBreadcrumb(): string
     {
-        return 'Graphs';
+        return 'Dashboard';
     }
 
     public function getTitle(): string
     {
-        return 'Dashboard Mikrotik GKB LT1';
+        return 'Mikrotik GKB Lantai 1 - CCR1009-7G-1C-1S+';
     }
 }
