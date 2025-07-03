@@ -85,6 +85,7 @@ class MonitoringPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentWebhookClientPlugin::make(),
+                \pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin::make(),
                 \TomatoPHP\FilamentLogger\FilamentLoggerPlugin::make(),
                 \ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin::make()
                     ->authorize(fn(): bool => auth()->user()->email === 'admin@gmail.com'),

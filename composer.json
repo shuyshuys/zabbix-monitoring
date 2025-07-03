@@ -12,6 +12,7 @@
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
+        "pxlrbt/filament-environment-indicator": "^2.1",
         "shuvroroy/filament-spatie-laravel-health": "^2.3",
         "spatie/laravel-webhook-client": "^3.4",
         "tapp/filament-webhook-client": "^1.1",
