@@ -4,9 +4,14 @@
             {{-- Tab Navigation --}}
             <div class="flex flex-wrap gap-2 mb-4 justify-center">
                 <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
-                    :class="tab === 'fik' ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-white'"
-                    @click="tab = 'fik'">
+                    :class="tab === 'fik1' ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                    @click="tab = 'fik1'">
                     FIK LT1
+                </button>
+                <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
+                    :class="tab === 'fik2' ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                    @click="tab = 'fik2'">
+                    FIK LT2
                 </button>
                 <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
                     :class="tab === 'gkb1' ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 dark:text-white'"
@@ -25,8 +30,8 @@
                 </button>
             </div>
 
-            {{-- CPU Trend FIK LT1 Report --}}
-            <div x-show="tab === 'fik'">
+            {{-- GKB LT1 --}}
+            <div x-show="tab === 'fik1'">
                 <x-filament::card>
                     <div x-data="{ tab: 'bandwidth' }">
                         <div class="mb-4">
@@ -67,19 +72,19 @@
                                 @click="tab = 'icmpfiklt1'">
                                 ICMP Ping Trend
                             </button>
-                            {{-- Traffic Trend FIK LT1 Report --}}
-                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
-                                :class="tab === 'trafficfiklt1' ? 'bg-primary-600 text-white' :
-                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
-                                @click="tab = 'trafficfiklt1'">
-                                Traffic Trend
-                            </button>
                             {{-- Link Status Trend FIK LT1 --}}
                             <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
                                 :class="tab === 'linkfiklt1' ? 'bg-primary-600 text-white' :
                                     'bg-gray-200 dark:bg-gray-700 dark:text-white'"
                                 @click="tab = 'linkfiklt1'">
                                 Link Status Trend
+                            </button>
+                            {{-- Traffic Trend FIK LT1 Report --}}
+                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
+                                :class="tab === 'trafficfiklt1' ? 'bg-primary-600 text-white' :
+                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                                @click="tab = 'trafficfiklt1'">
+                                Traffic Trend
                             </button>
                         </div>
 
@@ -102,16 +107,52 @@
                         <div x-show="tab === 'icmpfiklt1'">
                             <livewire:icmp-ping-trend-report hostName="mikrotik-fik-2" />
                         </div>
+                        {{-- Link Status Trend FIK LT1 --}}
+                        <div x-show="tab === 'linkfiklt1'">
+                            <livewire:link-status-trend-report hostName="mikrotik-fik-2" />
+                        </div>
                         {{-- Traffic Trend FIK LT1 Report --}}
                         <div x-show="tab === 'trafficfiklt1'">
                             <livewire:traffic-trend-report hostName="mikrotik-fik-2"
                                 interfaceIn="net.if.in[ifHCInOctets.2]" interfaceOut="net.if.out[ifHCOutOctets.2]" />
                         </div>
-                        {{-- Link Status Trend FIK LT1 --}}
-                        <div x-show="tab === 'linkfiklt1'">
-                            <livewire:fik-lt1.link-status-trend-report />
+
+                    </div>
+                </x-filament::card>
+            </div>
+
+            {{-- GKB LT2 --}}
+            <div x-show="tab === 'fik2'">
+                {{-- CPU Trend FIK LT2 Report --}}
+                <x-filament::card>
+                    <div x-data="{ tab: 'bandwidth' }">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-bold mb-4">Gedung Fakultas Ilmu Komputer Lantai 2</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Pilih tab di bawah untuk melihat laporan yang berbeda.
+                            </p>
                         </div>
 
+                        {{-- Button --}}
+                        {{-- CPU Trend FIK LT1 Report --}}
+                        <div class="flex flex-wrap gap-2 mb-4 justify-center">
+                            {{-- CPU Trend FIK LT1 Report --}}
+                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
+                                :class="tab === 'cpufiklt2' ? 'bg-primary-600 text-white' :
+                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                                @click="tab = 'cpufiklt2'">
+                                CPU Trend
+                            </button>
+                        </div>
+
+                        <hr>
+                        <br>
+
+                        {{-- CPU Trend FIK LT1 Report --}}
+                        <div x-show="tab === 'cpufiklt2'">
+                            <p>cpu lt2</p>
+                            {{-- <livewire:cpu-trend-report hostName="mikrotik-fik-2" /> --}}
+                        </div>
                     </div>
                 </x-filament::card>
             </div>
@@ -157,6 +198,13 @@
                                 @click="tab = 'dhcpgkblt1'">
                                 DHCP Count Trend
                             </button>
+                            {{-- Link Status Trend GKB LT1 --}}
+                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
+                                :class="tab === 'linkgkblt1' ? 'bg-primary-600 text-white' :
+                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                                @click="tab = 'linkgkblt1'">
+                                Link Status Trend
+                            </button>
                             {{-- Traffic Trend GKB LT1 Report --}}
                             <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
                                 :class="tab === 'trafficgkblt1' ? 'bg-primary-600 text-white' :
@@ -185,6 +233,10 @@
                         {{-- DHCP Lease Trend GKB LT1 Report --}}
                         <div x-show="tab === 'dhcpgkblt1'">
                             <livewire:user-trend-report hostName="mikrotik-gkb-lt1" />
+                        </div>
+                        {{-- Link Status Trend GKB LT1 --}}
+                        <div x-show="tab === 'linkgkblt1'">
+                            <livewire:link-status-trend-report hostName="mikrotik-gkb-lt1" />
                         </div>
                         {{-- Traffic Trend GKB LT1 Report --}}
                         <div x-show="tab === 'trafficgkblt1'">
@@ -229,13 +281,6 @@
                                 @click="tab = 'icmpgkblt2'">
                                 ICMP Ping Trend
                             </button>
-                            {{-- Traffic Trend GKB LT2 Report --}}
-                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
-                                :class="tab === 'trafficgkblt2' ? 'bg-primary-600 text-white' :
-                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
-                                @click="tab = 'trafficgkblt2'">
-                                Traffic Trend
-                            </button>
                             {{-- Link Status Trend GKB LT2 --}}
                             <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
                                 :class="tab === 'linkgkblt2' ? 'bg-primary-600 text-white' :
@@ -243,7 +288,13 @@
                                 @click="tab = 'linkgkblt2'">
                                 Link Status Trend
                             </button>
-
+                            {{-- Traffic Trend GKB LT2 Report --}}
+                            <button class="px-4 py-2 rounded-lg font-semibold space-x-4"
+                                :class="tab === 'trafficgkblt2' ? 'bg-primary-600 text-white' :
+                                    'bg-gray-200 dark:bg-gray-700 dark:text-white'"
+                                @click="tab = 'trafficgkblt2'">
+                                Traffic Trend
+                            </button>
                         </div>
 
                         <hr>
@@ -262,14 +313,14 @@
                         <div x-show="tab === 'icmpgkblt2'">
                             <livewire:icmp-ping-trend-report hostName="mikrotik-gkb-lt2" />
                         </div>
-                        {{-- Link Status Trend GKB LT2 --}}
-                        <div x-show="tab === 'linkgkblt2'">
-                            <livewire:gkb-lt2.link-status-trend-report />
-                        </div>
                         {{-- Traffic Trend GKB LT2 Report --}}
                         <div x-show="tab === 'trafficgkblt2'">
                             <livewire:traffic-trend-report hostName="mikrotik-gkb-lt2"
                                 interfaceIn="net.if.in[ifHCInOctets.1]" interfaceOut="net.if.out[ifHCOutOctets.1]" />
+                        </div>
+                        {{-- Link Status Trend GKB LT2 --}}
+                        <div x-show="tab === 'linkgkblt2'">
+                            <livewire:link-status-trend-report hostName="mikrotik-gkb-lt2" />
                         </div>
                     </div>
                 </x-filament::card>
@@ -343,7 +394,7 @@
                         </div>
                         {{-- Link Status Trend GKB LT3 --}}
                         <div x-show="tab === 'linkgkblt3'">
-                            {{-- <livewire:gkb-lt3.link-status-trend-report /> --}}
+                            <livewire:link-status-trend-report hostName="mikrotik-gkb-lt3" />
                         </div>
                         {{-- Traffic Trend GKB LT3 Report --}}
                         <div x-show="tab === 'trafficgkblt3'">

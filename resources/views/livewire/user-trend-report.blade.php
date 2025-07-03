@@ -41,7 +41,7 @@
                             data: @json($values),
                             borderColor: '#2563eb',
                             backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            tension: 0.3
+                            tension: 0.5
                         }]
                     },
                     options: {

@@ -49,7 +49,7 @@
                             data: @json($dataIn),
                             borderColor: '#4CAF50',
                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            tension: 0.3,
+                            tension: 0.5,
                             yAxisID: 'y',
                         },
                         {
@@ -57,7 +57,7 @@
                             data: @json($dataOut),
                             borderColor: '#2196F3',
                             backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                            tension: 0.3,
+                            tension: 0.5,
                             yAxisID: 'y',
                         }
                     ]

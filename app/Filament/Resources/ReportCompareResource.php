@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Pages\Report;
-use App\Filament\Resources\ReportResource\Pages;
-use App\Filament\Resources\ReportResource\RelationManagers;
-// use App\Models\Report;
+use App\Filament\Resources\ReportCompareResource\Pages;
+use App\Filament\Resources\ReportCompareResource\RelationManagers;
+use App\Models\ReportCompare;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,19 +13,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ReportResource extends Resource
+class ReportCompareResource extends Resource
 {
-    // protected static ?string $model = Zabbix::class;
+    // protected static ?string $model = ReportCompare::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $title = 'Report';
+    protected static ?string $title = 'Report Compare';
     // start
-    protected static ?string $slug = 'report';
+    protected static ?string $slug = 'compare';
 
-    protected static ?string $label = 'Report';
+    protected static ?string $label = 'Report Compare';
 
-    protected static ?string $navigationLabel = 'Report';
+    protected static ?string $navigationLabel = 'Compare';
 
     protected static ?string $pluralLabel = 'Report';
 
@@ -74,7 +73,7 @@ class ReportResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\Report::route('/'),
+            'index' => Pages\ReportCompare::route('/'),
         ];
     }
 }

@@ -36,7 +36,7 @@
                                 data: @json($statusData),
                                 borderColor: '#4CAF50',
                                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                                tension: 0.3,
+                                tension: 0.5,
                                 yAxisID: 'y',
                             },
                             {
@@ -44,7 +44,7 @@
                                 data: @json($responseTimeData),
                                 borderColor: '#2196F3',
                                 backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                                tension: 0.3,
+                                tension: 0.5,
                                 yAxisID: 'y1',
                             }
                         ]
