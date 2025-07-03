@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Filament\Resources\FIK2LT2Resource\Widgets;
+
+use Filament\Widgets\ChartWidget;
+use App\Services\ZabbixApiService;
+
+class InterfaceEther1Chart extends ChartWidget
+{
+    protected static ?string $heading = 'Interface Ether1 Traffic';
+    protected static ?string $pollingInterval = '600s';
+    public ?string $filter = '1hour';
+
+    protected function getData(): array
+    {
+        $hostName = 'mikrotik-fik-msi';
+        $zabbix = new ZabbixApiService();
+        return $zabbix->getInterfaceTraffic($hostName, $this->filter, 'ether1');
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
+    }
+
+    protected function getTitle(): string
+    {
+        return 'Ether1 Traffic Chart';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            '1hour' => 'Last hour',
+            '2hours' => 'Last 2 hours',
+            '3hours' => 'Last 3 hours',
+            '4hours' => 'Last 4 hours',
+            '5hours' => 'Last 5 hours',
+            '6hours' => 'Last 6 hours',
+            '12hours' => 'Last 12 hours',
+            'yesterday' => 'Yesterday',
+        ];
+    }
+}
