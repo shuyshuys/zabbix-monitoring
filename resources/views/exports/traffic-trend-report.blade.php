@@ -43,8 +43,15 @@
         <p>Date: {{ now()->format('Y-m-d H:i:s') }}</p>
     </div>
     <div class="data">Range: {{ $trendData['from'] ?? '-' }} - {{ $trendData['till'] ?? '-' }}</div>
-    <div class="data">Total Inbound: <b>{{ number_format($trendData['total_in'] ?? 0) }} MB</b></div>
-    <div class="data">Total Outbound: <b>{{ number_format($trendData['total_out'] ?? 0) }} MB</b></div>
+    <div class="data">
+        <div>Min Inbound: <b>{{ number_format($trendData['minValueIn'] ?? 0, 2) }} mbps</b></div>
+        <div>Max Inbound: <b>{{ number_format($trendData['maxValueIn'] ?? 0, 2) }} mbps</b></div>
+        <div>Avg Inbound: <b>{{ number_format($trendData['avgValueIn'] ?? 0, 2) }} mbps</b></div>
+        <div>Min Outbound: <b>{{ number_format($trendData['minValueOut'] ?? 0, 2) }} mbps</b></div>
+        <div>Max Outbound: <b>{{ number_format($trendData['maxValueOut'] ?? 0, 2) }} mbps</b></div>
+        <div>Avg Outbound: <b>{{ number_format($trendData['avgValueOut'] ?? 0, 2) }} mbps</b></div>
+    </div>
+
 
     <div class="data">
         <canvas id="trafficChart" height="80"></canvas>
@@ -64,7 +71,7 @@
                                 data: @json($dataIn),
                                 borderColor: '#4CAF50',
                                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                                tension: 0.3,
+                                tension: 0.5,
                                 yAxisID: 'y',
                             },
                             {
@@ -72,7 +79,7 @@
                                 data: @json($dataOut),
                                 borderColor: '#FF9800',
                                 backgroundColor: 'rgba(255, 152, 0, 0.1)',
-                                tension: 0.3,
+                                tension: 0.5,
                                 yAxisID: 'y1',
                             }
                         ]

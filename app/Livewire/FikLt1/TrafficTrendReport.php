@@ -42,7 +42,7 @@ class TrafficTrendReport extends Component
 
         $this->labels = [];
         foreach ($trendIn as $trend) {
-            $this->labels[] = date('d M H', $trend['clock']);
+            $this->labels[] = date('d M H:i', $trend['clock']);
         }
 
         $this->dataIn = [];

@@ -22,8 +22,12 @@
     <div>
         <div class="mb-4">
             <div>Range: {{ $trendData['from'] ?? '-' }} - {{ $trendData['till'] ?? '-' }}</div>
-            <div>Total Inbound: <b>{{ number_format($trendData['total_in'] ?? 0) }} MB</b></div>
-            <div>Total Outbound: <b>{{ number_format($trendData['total_out'] ?? 0) }} MB</b></div>
+            <div>Min Inbound: <b>{{ number_format($trendData['minValueIn'] ?? 0, 2) }} mbps</b></div>
+            <div>Max Inbound: <b>{{ number_format($trendData['maxValueIn'] ?? 0, 2) }} mbps</b></div>
+            <div>Avg Inbound: <b>{{ number_format($trendData['avgValueIn'] ?? 0, 2) }} mbps</b></div>
+            <div>Min Outbound: <b>{{ number_format($trendData['minValueOut'] ?? 0, 2) }} mbps</b></div>
+            <div>Max Outbound: <b>{{ number_format($trendData['maxValueOut'] ?? 0, 2) }} mbps</b></div>
+            <div>Avg Outbound: <b>{{ number_format($trendData['avgValueOut'] ?? 0, 2) }} mbps</b></div>
         </div>
 
         <canvas id="trafficChart-{{ $trendData['itemIdIn'] }}" height="80"></canvas>
@@ -45,7 +49,7 @@
                 data: {
                     labels: @json($labels),
                     datasets: [{
-                            label: 'Inbound (MB)',
+                            label: 'Inbound (mbps)',
                             data: @json($dataIn),
                             borderColor: '#4CAF50',
                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -53,7 +57,7 @@
                             yAxisID: 'y',
                         },
                         {
-                            label: 'Outbound (MB)',
+                            label: 'Outbound (mbps)',
                             data: @json($dataOut),
                             borderColor: '#2196F3',
                             backgroundColor: 'rgba(33, 150, 243, 0.1)',
@@ -69,7 +73,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Traffic (MB)'
+                                text: 'Traffic (mbps)'
                             }
                         }
                     }

@@ -144,24 +144,28 @@ class ZabbixApiService
                 $timeTill = strtotime('today');
                 break;
             case 'last_week':
-                $timeFrom = strtotime('-6 days');
+                $timeFrom = strtotime('monday last week');
+                $timeTill = strtotime('monday_this_week');
+                break;
+            case 'this_week':
+                $timeFrom = strtotime('monday this week');
                 $timeTill = strtotime('now');
                 break;
             case 'last_month':
                 $timeFrom = strtotime('-1 month');
-                $timeTill = strtotime('now');
+                $timeTill = strtotime('first day of this month 00:00:00');
                 break;
             case 'last_3_month':
-                $timeFrom = strtotime('-3 months');
-                $timeTill = strtotime('now');
+                $timeFrom = strtotime('first day of -3 month 00:00:00');
+                $timeTill = strtotime('first day of this month 00:00:00');
                 break;
             case 'last_6_month':
-                $timeFrom = strtotime('-6 months');
-                $timeTill = strtotime('now');
+                $timeFrom = strtotime('first day of -6 month 00:00:00');
+                $timeTill = strtotime('first day of this month 00:00:00');
                 break;
             case 'last_year':
-                $timeFrom = strtotime('-1 year');
-                $timeTill = strtotime('now');
+                $timeFrom = strtotime('first day of January last year 00:00:00');
+                $timeTill = strtotime('first day of January this year 00:00:00');
                 break;
             case '1hour':
                 $timeFrom = strtotime('-1 hour');
@@ -652,7 +656,7 @@ class ZabbixApiService
                     'itemids' => [$itemId],
                     'time_from' => $from,
                     'time_till' => $till,
-                    'limit' => 100,
+                    'limit' => 2500,
                     'sortfield' => 'clock',
                     'sortorder' => 'ASC',
                 ],

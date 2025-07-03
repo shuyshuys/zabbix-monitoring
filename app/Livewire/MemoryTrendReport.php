@@ -50,7 +50,7 @@ class MemoryTrendReport extends Component
             'till' => date('Y-m-d H:i', $till),
         ];
 
-        $this->labels = array_map(fn($d) => date('d M H', $d['clock']), $usedMemory);
+        $this->labels = array_map(fn($d) => date('d M H:i', $d['clock']), $usedMemory);
         $this->usedMemoryData = array_map(fn($d) => round((float)$d['value_avg'], 2), $usedMemory);
 
 
