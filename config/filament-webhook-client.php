@@ -15,8 +15,8 @@ return [
     ],
 
     'navigation' => [
-        'sort' => 1,
-        'icon' => 'heroicon-o-rectangle-stack',
+        'icon' => 'heroicon-o-bolt',
+        'sort' => 0,
     ],
 
 ];
