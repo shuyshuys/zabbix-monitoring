@@ -17,7 +17,7 @@ class ZabbixApiService
      */
     public function __construct()
     {
-        $this->url = env('ZABBIX_URL', 'http://localhost/zabbix/api_jsonrpc.php');
+        $this->url = env('ZABBIX_URL', 'http://127.0.0.1:8080/zabbix/api_jsonrpc.php');
         $this->username = env('ZABBIX_USERNAME', 'Admin');
         $this->password = env('ZABBIX_PASSWORD', 'zabbix');
     }
