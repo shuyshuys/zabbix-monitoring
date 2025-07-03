@@ -74,53 +74,53 @@ class Gkb2TrafficSummaryOverview extends BaseWidget
         $totalOutbound = 0;
 
         // Ambil Active Leases (Total Users)
-        $activeLeases = 'N/A';
-        try {
-            $response = $client->request('POST', $zabbixService->getUrl(), [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'jsonrpc' => '2.0',
-                    'method' => 'item.get',
-                    'params' => [
-                        'output' => ['itemid', 'name', 'key_'],
-                        'hostids' => $hostId,
-                        'search' => ['key_' => 'mtxrDHCPLeaseCount'],
-                    ],
-                    'id' => 10,
-                    'auth' => $authToken,
-                ],
-            ]);
-            $data = json_decode($response->getBody()->getContents(), true);
-            $itemId = $data['result'][0]['itemid'] ?? null;
+        // $activeLeases = 'N/A';
+        // try {
+        //     $response = $client->request('POST', $zabbixService->getUrl(), [
+        //         'headers' => [
+        //             'Content-Type' => 'application/json',
+        //         ],
+        //         'json' => [
+        //             'jsonrpc' => '2.0',
+        //             'method' => 'item.get',
+        //             'params' => [
+        //                 'output' => ['itemid', 'name', 'key_'],
+        //                 'hostids' => $hostId,
+        //                 'search' => ['key_' => 'mtxrDHCPLeaseCount'],
+        //             ],
+        //             'id' => 10,
+        //             'auth' => $authToken,
+        //         ],
+        //     ]);
+        //     $data = json_decode($response->getBody()->getContents(), true);
+        //     $itemId = $data['result'][0]['itemid'] ?? null;
 
-            if ($itemId) {
-                $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'jsonrpc' => '2.0',
-                        'method' => 'history.get',
-                        'params' => [
-                            'output' => 'extend',
-                            'history' => 3,
-                            'itemids' => [$itemId],
-                            'sortfield' => 'clock',
-                            'sortorder' => 'DESC',
-                            'limit' => 1,
-                        ],
-                        'id' => 11,
-                        'auth' => $authToken,
-                    ],
-                ]);
-                $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
-                $activeLeases = $historyData[0]['value'] ?? 'N/A';
-            }
-        } catch (\Exception $e) {
-            // Optional: handle error
-        }
+        //     if ($itemId) {
+        //         $historyResponse = $client->request('POST', $zabbixService->getUrl(), [
+        //             'headers' => [
+        //                 'Content-Type' => 'application/json',
+        //             ],
+        //             'json' => [
+        //                 'jsonrpc' => '2.0',
+        //                 'method' => 'history.get',
+        //                 'params' => [
+        //                     'output' => 'extend',
+        //                     'history' => 3,
+        //                     'itemids' => [$itemId],
+        //                     'sortfield' => 'clock',
+        //                     'sortorder' => 'DESC',
+        //                     'limit' => 1,
+        //                 ],
+        //                 'id' => 11,
+        //                 'auth' => $authToken,
+        //             ],
+        //         ]);
+        //         $historyData = json_decode($historyResponse->getBody()->getContents(), true)['result'] ?? [];
+        //         $activeLeases = $historyData[0]['value'] ?? 'N/A';
+        //     }
+        // } catch (\Exception $e) {
+        //     // Optional: handle error
+        // }
 
         foreach ($items as $item) {
             // Inbound: net.if.in[ifHCInOctets.X]
@@ -191,10 +191,10 @@ class Gkb2TrafficSummaryOverview extends BaseWidget
                 ->description('Total lalu lintas keluar')
                 ->icon('heroicon-o-arrow-up-circle')
                 ->color('info'),
-            Stat::make('Total Users', $activeLeases)
-                ->description('Jumlah pengguna aktif dari DHCP')
-                ->icon('heroicon-o-users')
-                ->color('primary'),
+            // Stat::make('Total Users', $activeLeases)
+            //     ->description('Jumlah pengguna aktif dari DHCP')
+            //     ->icon('heroicon-o-users')
+            //     ->color('primary'),
         ];
     }
 }
