@@ -25,9 +25,9 @@ class GKBLT1Resource extends Resource
 
     protected static ?string $label = 'Mikrotik GKB LT1';
 
-    protected static ?string $navigationLabel = 'LT1 CCR1009-7G-1C-1S+';
+    protected static ?string $navigationLabel = 'LT1 - CCR1009-7G-1C-1S+';
 
-    protected static ?string $pluralLabel = 'Mikrotik GKB LT1';
+    protected static ?string $pluralLabel = 'GKB LT1';
 
     protected static ?string $navigationGroup = 'GKB';
 
