@@ -31,6 +31,8 @@ class CpuChart extends ChartWidget
                     'data' => $cpu['data'],
                     'borderColor' => '#4CAF50',
                     'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
+                    'tension' => 0.5,
+                    'fill' => true,
                 ]
             ],
         ];
