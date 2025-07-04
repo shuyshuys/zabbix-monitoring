@@ -185,7 +185,6 @@
 
                         {{-- CPU Trend FIK LT1 Report --}}
                         <div x-show="tab === 'cpufiklt2'">
-                            <p>cpu lt2</p>
                             <livewire:cpu-trend-report hostName="mikrotik-fik-msi" />
                         </div>
                         {{-- Memory Trend FIK LT2 --}}
