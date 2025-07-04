@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class TracerouteWidget extends Widget
 {
-    protected static string $view = 'filament.resources.g-k-b-l-t1-resource.widgets.traceroute-widget';
-    // protected static string $view = 'filament.widgets.traceroute-widget';
+    protected static string $view = 'filament.widgets.traceroute-widget';
 
     public ?string $result = null;
     protected int | string | array $columnSpan = 'full';
