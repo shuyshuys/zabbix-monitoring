@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\Models\WebhookCall;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Notifications\ZabbixAlertWebPush;
 
 class WebhookController extends Controller
 {
@@ -45,7 +45,11 @@ class WebhookController extends Controller
             Notification::make()
                 ->title("$alertSubject")
                 ->body("{$alertMessage}")
-                ->sendToDatabase($recipient); // <-- ini WAJIB
+                ->sendToDatabase($recipient);
+
+            // Tambahkan webpush
+            $recipient->notify(new \App\Notifications\ZabbixAlertWebPush($alertSubject, $alertMessage));
+
             Log::info('Notification sent to user', ['user_id' => $recipient->id]);
         }
 
