@@ -447,12 +447,12 @@
                         </div>
                         {{-- ICMP Ping GKB LT3 Report --}}
                         {{-- <div x-show="tab === 'icmpgkblt3'">
-                <livewire:icmp-ping-trend-report hostName="mikrotik-gkb-lt3" />
-            </div> --}}
+                            <livewire:icmp-ping-trend-report hostName="mikrotik-gkb-lt3" />
+                        </div> --}}
                         {{-- Link Status Trend GKB LT3 --}}
                         {{-- <div x-show="tab === 'linkgkblt3'">
-                <livewire:link-status-trend-report hostName="mikrotik-gkb-lt3" />
-            </div> --}}
+                            <livewire:link-status-trend-report hostName="mikrotik-gkb-lt3" />
+                        </div> --}}
                         {{-- Traffic Trend GKB LT3 Report --}}
                         <div x-show="tab === 'trafficgkblt3'">
                             <livewire:traffic-trend-report hostName="mikrotik-gkb-lt3"
@@ -461,8 +461,6 @@
                     </div>
                 </x-filament::card>
             </div>
-
-
         </div>
     </x-filament::card>
 </x-filament::page>

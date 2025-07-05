@@ -1,4 +1,9 @@
 {{-- filepath: resources/views/livewire/traffic-trend-report.blade.php --}}
+<style>
+    .summary p {
+        margin: 0.25rem 0;
+    }
+</style>
 <div class="space-y-4">
     <div class="flex items-center gap-4">
         <select wire:model="filter"
@@ -19,19 +24,31 @@
         </x-filament::button>
     </div>
 
+    {{-- Statistik Traffic --}}
     <div>
-        <div class="mb-4">
-            <div>Range: {{ $trendData['from'] ?? '-' }} - {{ $trendData['till'] ?? '-' }}</div>
-            <div>Min Inbound: <b>{{ number_format($trendData['minValueIn'] ?? 0, 2) }} mbps</b></div>
-            <div>Max Inbound: <b>{{ number_format($trendData['maxValueIn'] ?? 0, 2) }} mbps</b></div>
-            <div>Avg Inbound: <b>{{ number_format($trendData['avgValueIn'] ?? 0, 2) }} mbps</b></div>
-            <div>Min Outbound: <b>{{ number_format($trendData['minValueOut'] ?? 0, 2) }} mbps</b></div>
-            <div>Max Outbound: <b>{{ number_format($trendData['maxValueOut'] ?? 0, 2) }} mbps</b></div>
-            <div>Avg Outbound: <b>{{ number_format($trendData['avgValueOut'] ?? 0, 2) }} mbps</b></div>
-        </div>
+        <h3 class="text-sm font-semibold mb-3 text-gray-800 dark:text-gray-100">Statistik Traffic</h3>
+        <div class="flex flex-wrap gap-4">
+            <!-- Inbound -->
+            <div
+                class="flex-1 min-w-[260px] bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                <h4 class="text-green-600 dark:text-green-400 font-semibold mb-2">Inbound</h4>
+                <p class="text-sm mb-1"><b>Minimum:</b> {{ number_format($trendData['minValueIn'] ?? 0, 2) }} Mbps</p>
+                <p class="text-sm mb-1"><b>Maksimum:</b> {{ number_format($trendData['maxValueIn'] ?? 0, 2) }} Mbps</p>
+                <p class="text-sm"><b>Rata-rata:</b> {{ number_format($trendData['avgValueIn'] ?? 0, 2) }} Mbps</p>
+            </div>
 
-        <canvas id="trafficChart-{{ $trendData['itemIdIn'] }}" height="80"></canvas>
+            <!-- Outbound -->
+            <div
+                class="flex-1 min-w-[260px] bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                <h4 class="text-blue-600 dark:text-blue-400 font-semibold mb-2">Outbound</h4>
+                <p class="text-sm mb-1"><b>Minimum:</b> {{ number_format($trendData['minValueOut'] ?? 0, 2) }} Mbps</p>
+                <p class="text-sm mb-1"><b>Maksimum:</b> {{ number_format($trendData['maxValueOut'] ?? 0, 2) }} Mbps</p>
+                <p class="text-sm"><b>Rata-rata:</b> {{ number_format($trendData['avgValueOut'] ?? 0, 2) }} Mbps</p>
+            </div>
+        </div>
     </div>
+
+    <canvas id="trafficChart-{{ $trendData['itemIdIn'] }}" height="80"></canvas>
 </div>
 
 @push('scripts')
