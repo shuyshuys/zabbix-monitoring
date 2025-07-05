@@ -535,6 +535,80 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get ICMP ping history for a specific host, aggregated per intervalMinutes.
+     *
+     * @param string $hostName The name of the host.
+     * @param string $filter Time filter (e.g., '1hour', 'today').
+     * @param int $intervalMinutes Interval in minutes for aggregation.
+     * @return array An array containing labels, status values, and response time values.
+     */
+    public function getIcmpPingHistoryByHost($hostName, $filter = '1hour', $intervalMinutes = 15)
+    {
+        $hostId = $this->getHostIdByName($hostName);
+        if (!$hostId) {
+            return [
+                'labels' => [],
+                'statusValues' => [],
+                'responseTimeValues' => [],
+            ];
+        }
+
+        // Ambil itemid untuk ICMP status dan response time
+        $icmpStatusItemId = $this->getItemIdByKey($hostId, 'icmpping');
+        $icmpResponseTimeItemId = $this->getItemIdByKey($hostId, 'icmppingsec');
+
+        if (!$icmpStatusItemId || !$icmpResponseTimeItemId) {
+            return [
+                'labels' => [],
+                'statusValues' => [],
+                'responseTimeValues' => [],
+            ];
+        }
+
+        [$timeFrom, $timeTill] = self::getTimeRange($filter);
+
+        // Ambil data ICMP status (history type 3 = integer)
+        $statusData = $this->getHistoryData($icmpStatusItemId, $timeFrom, $timeTill, 3, 1000);
+
+        // Ambil data ICMP response time (history type 0 = float)
+        $responseTimeData = $this->getHistoryData($icmpResponseTimeItemId, $timeFrom, $timeTill, 0, 1000);
+
+        // Agregasi per intervalMinutes
+        $interval = $intervalMinutes * 60;
+        $statusBuckets = [];
+        foreach ($statusData as $row) {
+            $bucket = floor($row['clock'] / $interval) * $interval;
+            $statusBuckets[$bucket][] = (int)$row['value'];
+        }
+        $responseBuckets = [];
+        foreach ($responseTimeData as $row) {
+            $bucket = floor($row['clock'] / $interval) * $interval;
+            $responseBuckets[$bucket][] = (float)$row['value'];
+        }
+
+        // Sinkronisasi label dan data
+        $allBuckets = array_unique(array_merge(array_keys($statusBuckets), array_keys($responseBuckets)));
+        sort($allBuckets);
+
+        $labels = [];
+        $statusValues = [];
+        $responseTimeValues = [];
+        foreach ($allBuckets as $bucketTime) {
+            $labels[] = date('H:i', $bucketTime);
+            // Status: ambil status terakhir pada interval, atau 0 jika tidak ada
+            $statusValues[] = !empty($statusBuckets[$bucketTime]) ? end($statusBuckets[$bucketTime]) : 0;
+            // Response time: rata-rata pada interval, atau 0 jika tidak ada
+            $responseTimeValues[] = !empty($responseBuckets[$bucketTime]) ? round(array_sum($responseBuckets[$bucketTime]) / count($responseBuckets[$bucketTime]), 3) : 0;
+        }
+
+        return [
+            'labels' => $labels,
+            'statusValues' => $statusValues,
+            'responseTimeValues' => $responseTimeValues,
+        ];
+    }
+
     public function getHostInterfaces(array $hostIds): array
     {
         $client = new Client();
