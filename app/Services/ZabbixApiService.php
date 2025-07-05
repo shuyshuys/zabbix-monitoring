@@ -145,14 +145,14 @@ class ZabbixApiService
                 break;
             case 'last_week':
                 $timeFrom = strtotime('monday last week');
-                $timeTill = strtotime('monday_this_week');
+                $timeTill = strtotime('today');
                 break;
             case 'this_week':
                 $timeFrom = strtotime('monday this week');
                 $timeTill = strtotime('now');
                 break;
             case 'last_month':
-                $timeFrom = strtotime('-1 month');
+                $timeFrom = strtotime('first day of last month 00:00:00');
                 $timeTill = strtotime('first day of this month 00:00:00');
                 break;
             case 'last_3_month':
