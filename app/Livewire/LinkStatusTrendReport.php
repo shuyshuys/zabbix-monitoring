@@ -77,7 +77,10 @@ class LinkStatusTrendReport extends Component
             'responseTimeData' => $this->responseTimeData,
             'filter' => $this->filter,
         ]);
-        return response()->streamDownload(fn() => print($pdf->output()), 'link-status-trend-report.pdf');
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'link-status-trend-report_' . now()->format('Ymd_His') . '.pdf'
+        );
     }
     public function render()
     {

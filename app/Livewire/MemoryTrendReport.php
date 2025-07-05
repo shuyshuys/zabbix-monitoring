@@ -83,7 +83,7 @@ class MemoryTrendReport extends Component
         ]);
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            'memory-trend-report.pdf'
+            'memory-trend-report_' . now()->format('Ymd_His') . '.pdf'
         );
     }
 

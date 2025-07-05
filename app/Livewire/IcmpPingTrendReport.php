@@ -78,7 +78,10 @@ class IcmpPingTrendReport extends Component
             'responseTimeData' => $this->responseTimeData,
             'filter' => $this->filter,
         ]);
-        return response()->streamDownload(fn() => print($pdf->output()), 'icmp-ping-trend-report.pdf');
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'icmp-ping-trend-report_' . now()->format('Ymd_His') . '.pdf'
+        );
     }
 
     public function render()

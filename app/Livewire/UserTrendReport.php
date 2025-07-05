@@ -43,7 +43,7 @@ class UserTrendReport extends Component
         $this->labels = [];
         $this->values = [];
         foreach ($trends as $trend) {
-            $this->labels[] = date('d-M H', $trend['clock']);
+            $this->labels[] = date('d-M H:i', $trend['clock']);
             $this->values[] = $trend['value_avg'];
         }
 

@@ -59,7 +59,10 @@ class CpuTrendReport extends Component
             'data' => $this->data,
             'filter' => $this->filter,
         ]);
-        return response()->streamDownload(fn() => print($pdf->output()), 'cpu-trend-report.pdf');
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'cpu-trend-report_' . now()->format('Ymd_His') . '.pdf'
+        );
     }
 
     public function render()
