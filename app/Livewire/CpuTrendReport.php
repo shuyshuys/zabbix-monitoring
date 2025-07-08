@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\ZabbixApiService;
+use Illuminate\Support\Facades\Log;
+
 
 class CpuTrendReport extends Component
 {
@@ -53,6 +55,7 @@ class CpuTrendReport extends Component
 
     public function downloadPdf()
     {
+        Log::info('downloadPDF CPU dipanggil');
         $pdf = Pdf::loadView('exports.cpu-trend-pdf', [
             'trendData' => $this->trendData,
             'labels' => $this->labels,

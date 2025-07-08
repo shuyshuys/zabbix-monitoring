@@ -1,9 +1,3 @@
-{{-- filepath: resources/views/livewire/traffic-trend-report.blade.php --}}
-<style>
-    .summary p {
-        margin: 0.25rem 0;
-    }
-</style>
 <div class="space-y-4">
     <div class="flex items-center gap-4">
         <select wire:model="filter"
@@ -16,9 +10,6 @@
             <option value="last_6_month">Last 6 Months</option>
             <option value="last_year">Last Year</option>
         </select>
-        {{-- <x-filament::button color="primary" type="submit" class="mb-0">
-            Download PDF
-        </x-filament::button> --}}
         <x-filament::button color="primary" type="button" wire:click="downloadPdf" class="mb-0">
             Download PDF
         </x-filament::button>

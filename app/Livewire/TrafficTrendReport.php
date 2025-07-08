@@ -3,8 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Services\ZabbixApiService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\ZabbixApiService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 class TrafficTrendReport extends Component
@@ -80,7 +81,8 @@ class TrafficTrendReport extends Component
 
     public function downloadPdf()
     {
-        $pdf = Pdf::loadView('exports.traffic-trend-report', [
+        Log::info('downloadPDF dipanggil');
+        $pdf = Pdf::loadView('exports.traffic-trend-pdf', [
             'labels' => $this->labels,
             'dataIn' => $this->dataIn,
             'dataOut' => $this->dataOut,
@@ -92,11 +94,6 @@ class TrafficTrendReport extends Component
             'traffic-trend-report_' . now()->format('Ymd_His') . '.pdf'
         );
     }
-
-    // public function render()
-    // {
-    //     return view('livewire.fik-lt1.traffic-trend-report');
-    // }
 
     public function render()
     {

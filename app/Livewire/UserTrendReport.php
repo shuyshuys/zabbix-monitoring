@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Services\ZabbixApiService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 
 class UserTrendReport extends Component
 {
@@ -59,7 +61,8 @@ class UserTrendReport extends Component
 
     public function downloadPdf()
     {
-        $pdf = Pdf::loadView('exports.dhcp-lease-trend-report', [
+        Log::info('downloadPDF User dipanggil');
+        $pdf = Pdf::loadView('exports.dhcp-lease-trend-pdf', [
             'trendData' => $this->trendData,
             'labels' => $this->labels,
             'values' => $this->values,

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Services\ZabbixApiService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class MemoryTrendReport extends Component
 {
@@ -75,7 +76,8 @@ class MemoryTrendReport extends Component
 
     public function downloadPdf()
     {
-        $pdf = Pdf::loadView('exports.memory-trend-report', [
+        Log::info('downloadPDF Memory dipanggil');
+        $pdf = Pdf::loadView('exports.memory-trend-pdf', [
             'trendData' => $this->trendData,
             'labels' => $this->labels,
             'usedMemoryData' => $this->usedMemoryData,
