@@ -240,8 +240,8 @@ class ZabbixApiService
         }
 
         return [
-            'labels' => array_reverse($labels),
-            'data' => array_reverse($data),
+            'labels' => $labels,
+            'data' => $data,
             'itemName' => $itemName,
             'tension' => 0.5,
         ];
@@ -374,10 +374,11 @@ class ZabbixApiService
             }
             $datasets[] = [
                 'label' => "Bits received {$etherName} (Mbps)",
-                'data' => array_reverse($receivedData),
+                'data' => $receivedData,
                 'borderColor' => '#4CAF50',
                 'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
                 'tension' => 0.5,
+                'fill' => true,
             ];
         }
 
@@ -391,14 +392,14 @@ class ZabbixApiService
             }
             $datasets[] = [
                 'label' => "Bits sent {$etherName} (Mbps)",
-                'data' => array_reverse($sentData),
+                'data' => $sentData,
                 'borderColor' => '#2196F3',
                 'backgroundColor' => 'rgba(33, 150, 243, 0.2)',
                 'tension' => 0.5,
             ];
         }
 
-        $labels = array_reverse($receivedLabels);
+        $labels = $receivedLabels;
         if (empty($labels) && !empty($sentData)) {
             // Jika tidak ada received, gunakan sent (tambahkan label dari sent jika perlu)
         }
