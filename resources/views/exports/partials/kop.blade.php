@@ -30,7 +30,7 @@
     }
 </style>
 <div class="kop clearfix">
-    <img src="{{ public_path('images/logo.png') }}" alt="Logo UPN">
+    <img src="{{ public_path('images/logo_tik.png') }}" alt="Logo UPN">
     <div style="margin-left: 80px;">
         <h1>UNIVERSITAS PEMBANGUNAN NASIONAL “VETERAN”</h1>
         <h1>JAWA TIMUR</h1>

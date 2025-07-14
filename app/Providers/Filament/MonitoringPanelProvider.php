@@ -94,9 +94,9 @@ class MonitoringPanelProvider extends PanelProvider
                 // \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make()
                 // FilaChatPlugin::make()
             ])
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('images/logo_tik.png'))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('images/logo.png'));
+            ->favicon(asset('images/logo_tik.png'));
         // ->viteTheme('resources/css/filament/monitoring/theme.css');
     }
 }

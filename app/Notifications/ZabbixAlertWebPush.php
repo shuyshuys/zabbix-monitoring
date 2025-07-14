@@ -30,8 +30,8 @@ class ZabbixAlertWebPush extends Notification implements ShouldQueue
     {
         return (new WebPushMessage())
             ->title($this->subject)
-            ->icon('/images/logo.png')
-            ->badge('/images/logo.png')
+            ->icon('/images/logo_tik.png')
+            ->badge('/images/logo_tik.png')
             ->body($this->message)
             ->options(['TTL' => 3600]);
     }
