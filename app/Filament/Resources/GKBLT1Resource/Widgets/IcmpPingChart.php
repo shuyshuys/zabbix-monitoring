@@ -16,7 +16,7 @@ class IcmpPingChart extends ChartWidget
         $zabbix = new ZabbixApiService();
         $hostName = 'mikrotik-gkb-lt1';
 
-        $result = $zabbix->getIcmpPingHistoryByHost($hostName, $this->filter, 50, 15);
+        $result = $zabbix->getIcmpPingHistoryByHost($hostName, $this->filter, 60, 15);
 
         return [
             'labels' => $result['labels'],
