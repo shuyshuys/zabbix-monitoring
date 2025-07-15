@@ -247,6 +247,12 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get DHCP lease and uptime statistics for a specific host.
+     *
+     * @param string $hostName The name of the host.
+     * @return array An array containing active leases and uptime statistics.
+     */
     public function getDhcpLeaseAndUptimeStats($hostName)
     {
         $hostId = $this->getHostIdByName($hostName);
@@ -267,6 +273,14 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get the last value of a specific item for a host.
+     *
+     * @param string $hostId The host ID.
+     * @param string $itemKey The item key.
+     * @param int $historyType The history type (default: 3).
+     * @return int The last value found, or 0 if not available.
+     */
     public function getLastItemValue($hostId, $itemKey, $historyType = 3)
     {
         $itemId = $this->getItemIdByKey($hostId, $itemKey);
@@ -276,41 +290,15 @@ class ZabbixApiService
         return isset($history[0]['value']) ? (int)$history[0]['value'] : 0;
     }
 
-    // public function getMemoryHistoryByHost($hostName, $filter = '1hour', $itemKey = 'vm.memory.util[memoryUsedPercentage.Memory]')
-    // {
-    //     $hostId = $this->getHostIdByName($hostName);
-    //     if (!$hostId) {
-    //         return ['labels' => [], 'data' => [], 'itemName' => 'Memory Usage'];
-    //     }
-
-    //     $itemId = $this->getItemIdByKey($hostId, $itemKey);
-    //     if (!$itemId) {
-    //         return ['labels' => [], 'data' => [], 'itemName' => 'Memory Usage'];
-    //     }
-
-    //     [$timeFrom, $timeTill] = self::getTimeRange($filter);
-
-    //     // Ambil data history (float = 0)
-    //     $history = $this->getHistoryData($itemId, $timeFrom, $timeTill, 0, 100);
-
-    //     $labels = [];
-    //     $data = [];
-    //     foreach ($history as $row) {
-    //         $labels[] = date('H:i', $row['clock']);
-    //         $data[] = (float)$row['value'];
-    //     }
-
-    //     // Dapatkan nama item (opsional)
-    //     $itemName = 'Memory Usage (%)';
-
-    //     return [
-    //         'labels' => array_reverse($labels),
-    //         'data' => array_reverse($data),
-    //         'itemName' => $itemName,
-    //         'tension' => 0.5,
-    //     ];
-    // }
-
+    /**
+     * Get network interface traffic data for a specific host.
+     * This method retrieves the Bits sent and Bits received for a specified interface (default is 'ether1') over a given time filter.
+     * 
+     * @param string $hostName The name of the host.
+     * @param string $filter The time filter (e.g., '1hour', 'today').
+     * @param string $etherName The interface name
+     * @return an Array containing interface traffic
+     */
     public function getInterfaceTraffic($hostName, $filter = '1hour', $etherName = 'ether1')
     {
         $hostId = $this->getHostIdByName($hostName);
@@ -410,6 +398,15 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get memory usage history for a specific host, aggregated per interval.
+     *
+     * @param string $hostName The name of the host.
+     * @param string $filter Time filter (e.g., '1hour', 'today').
+     * @param string $itemKey The item key for memory usage.
+     * @param int $intervalMinutes Aggregation interval in minutes.
+     * @return array Array with labels, data, and item name.
+     */
     public function getMemoryHistoryByHost($hostName, $filter = '1hour', $itemKey = 'vm.memory.util[memoryUsedPercentage.Memory]', $intervalMinutes = 15)
     {
         $hostId = $this->getHostIdByName($hostName);
@@ -452,6 +449,14 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get link status history for all interfaces of a host, aggregated per interval.
+     *
+     * @param string $hostName The name of the host.
+     * @param string $filter Time filter (e.g., '1hour', 'today').
+     * @param int $intervalMinutes Aggregation interval in minutes.
+     * @return array Array with labels and datasets for each interface.
+     */
     public function getLinkStatusHistoryByHost($hostName, $filter = '1hour', $intervalMinutes = 30)
     {
         $hostId = $this->getHostIdByName($hostName);
@@ -610,6 +615,12 @@ class ZabbixApiService
         ];
     }
 
+    /**
+     * Get host interfaces for the given host IDs.
+     *
+     * @param array $hostIds Array of host IDs.
+     * @return array Array of interface details for each host.
+     */
     public function getHostInterfaces(array $hostIds): array
     {
         $client = new Client();
@@ -636,6 +647,12 @@ class ZabbixApiService
         return $data['result'] ?? [];
     }
 
+    /**
+     * Get host ID by host name.
+     *
+     * @param string $hostName The name of the host.
+     * @return string|null The host ID, or null if not found.
+     */
     public function getHostIdByName(string $hostName): ?string
     {
         $client = new Client();
@@ -662,6 +679,13 @@ class ZabbixApiService
         return $data['result'][0]['hostid'] ?? null;
     }
 
+    /**
+     * Get item ID by item key for a specific host.
+     *
+     * @param string $hostId The host ID.
+     * @param string $itemKey The item key.
+     * @return string|null The item ID, or null if not found.
+     */
     public function getItemIdByKey(string $hostId, string $itemKey): ?string
     {
         $client = new Client();
@@ -689,6 +713,14 @@ class ZabbixApiService
         return $data['result'][0]['itemid'] ?? null;
     }
 
+    /**
+     * Get trend data for a specific item within a time range.
+     *
+     * @param string $itemId The item ID.
+     * @param int $timeFrom Start timestamp.
+     * @param int $timeTill End timestamp.
+     * @return array Array of trend data.
+     */
     public function getTrends(string $itemId, int $timeFrom, int $timeTill): array
     {
         $client = new Client();
@@ -717,6 +749,14 @@ class ZabbixApiService
         return $data['result'] ?? [];
     }
 
+    /**
+     * Get trend data for a specific item within a time range (with limit and sorting).
+     *
+     * @param string $itemId The item ID.
+     * @param int $from Start timestamp.
+     * @param int $till End timestamp.
+     * @return array Array of trend data.
+     */
     public function getTrendData($itemId, $from, $till)
     {
         $client = new Client();
@@ -743,6 +783,14 @@ class ZabbixApiService
     }
 
 
+    /**
+     * Get interface bandwidth history for a specific host and interface.
+     *
+     * @param string $hostId The host ID.
+     * @param string $interfaceId The interface ID.
+     * @param string $filter Time filter.
+     * @return array Array of bandwidth history data.
+     */
     public function getInterfaceBandwidthHistory(string $hostId, string $interfaceId, string $filter): array
     {
         $client = new Client();
@@ -777,6 +825,16 @@ class ZabbixApiService
         return $data['result'] ?? [];
     }
 
+    /**
+     * Get history data for a specific item within a time range.
+     *
+     * @param string $itemId The item ID.
+     * @param int $timeFrom Start timestamp.
+     * @param int $timeTill End timestamp.
+     * @param int $history History type.
+     * @param int $limit Maximum number of records.
+     * @return array Array of history data.
+     */
     public function getHistoryData(string $itemId, int $timeFrom, int $timeTill, int $history, int $limit): array
     {
         $client = new Client();
